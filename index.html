@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>愛知・静岡サーフポイントガイド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<style>
+  :root{--navy:#0E2A38;--navy-deep:#07161e;--sand:#F6F1E5;--sand-2:#E9E0CC;--teal:#2FA5A9;--ink:#15262B;--ink-soft:#54666C;--line:rgba(14,42,56,.13)}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--sand);color:var(--ink);font-family:'Noto Sans JP',sans-serif;line-height:1.65}
+  h1,.disp{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900}
+  a{color:inherit}
+  .hero{position:relative;background:linear-gradient(180deg,var(--navy),var(--navy-deep));color:var(--sand);padding:34px 20px 50px;overflow:hidden}
+  .hero .kicker{font-size:12px;color:var(--teal);font-weight:700;margin-bottom:8px}
+  .hero h1{font-size:27px;margin:0 0 9px;line-height:1.25}
+  .hero p{font-size:13.5px;color:#C4D3D8;margin:0;max-width:34em}
+  .hero svg.waves{position:absolute;left:0;bottom:-1px;width:100%;height:46px}
+  .filterbar{display:flex;gap:6px;padding:11px 11px 9px;flex-wrap:wrap;position:sticky;top:0;background:var(--sand);z-index:600;border-bottom:1px solid var(--line)}
+  .chip{border:1.5px solid var(--navy);background:transparent;color:var(--navy);padding:6px 11px;border-radius:99px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+  .chip.active{background:var(--navy);color:var(--sand)}
+  #map{height:300px;width:100%}
+  .leaflet-popup-content{font-family:'Noto Sans JP',sans-serif;font-size:12.5px;margin:10px 12px}
+  .pt{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:14px}
+  .section-label{padding:18px 17px 4px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+  .grouphead{padding:15px 17px 2px;font-size:12px;font-weight:700;color:var(--teal)}
+  .list{padding:5px 12px 28px;display:flex;flex-direction:column;gap:9px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:13px;overflow:hidden}
+  .card-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;gap:8px}
+  .hl{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .pref-tag{font-size:10.5px;font-weight:700;color:var(--teal)}
+  .card-title{font-size:15.5px;font-weight:900;font-family:'Zen Kaku Gothic New',sans-serif}
+  .lv{flex-shrink:0;font-size:11px;font-weight:700;padding:4px 9px;border-radius:99px;white-space:nowrap}
+  .lv-b{background:#E2F2ED;color:#1C7458}.lv-m{background:#FDF0DC;color:#A8630A}.lv-a{background:#FBE5DF;color:#B93F27}
+  .chev{width:18px;height:18px;flex-shrink:0;color:var(--ink-soft);transition:transform .2s}
+  .card.open .chev{transform:rotate(180deg)}
+  .card-body{max-height:0;overflow:hidden;transition:max-height .28s ease}
+  .card.open .card-body{max-height:1600px}
+  .bi{padding:0 14px 15px;display:flex;flex-direction:column;gap:9px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .box{background:var(--sand);border-radius:9px;padding:7px 10px}
+  .box .l{font-size:10px;color:var(--ink-soft);font-weight:700;margin-bottom:2px}
+  .box .v{font-size:12.5px;font-weight:700}
+  .blk .l{font-size:10.5px;color:var(--ink-soft);font-weight:700;margin-bottom:3px}
+  .blk .v{font-size:13px}
+  .facil{font-size:12px;color:var(--ink-soft);background:var(--sand-2);border-radius:8px;padding:7px 10px}
+  .src{font-size:10.5px;color:var(--ink-soft)}
+  .btn{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--navy);color:var(--sand);text-decoration:none;padding:10px;border-radius:9px;font-weight:700;font-size:13px}
+  .btn svg{width:15px;height:15px}
+  .note{margin:6px 12px 26px;padding:14px;background:var(--sand-2);border-radius:12px;font-size:12px;color:var(--ink-soft)}
+  .note b{color:var(--ink)}
+  footer{text-align:center;font-size:10.5px;color:var(--ink-soft);padding:0 20px 26px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="kicker">知多・渥美・遠州灘・伊豆・鹿島灘</div>
+  <h1>サーフポイント<br>ガイド</h1>
+  <p>愛知・静岡・茨城の61ポイント。向き・対応ウネリ・オフショア・潮位・設備・グルメ・温泉つき。マーカーは実測座標です。</p>
+  <svg class="waves" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0 32 Q120 4 240 32 T480 32 T720 32 T960 32 T1200 32 T1440 32 V60 H0Z" fill="#F6F1E5"/></svg>
+</div>
+
+<div class="filterbar">
+  <button class="chip active" data-f="all">すべて</button>
+  <button class="chip" data-f="aichi">愛知</button>
+  <button class="chip" data-f="shizuoka">静岡</button>
+  <button class="chip" data-f="ibaraki">茨城</button>
+  <button class="chip" data-f="hama">浜松周辺</button>
+  <button class="chip" data-f="b">初心者向け</button>
+  <button class="chip" data-f="a">上級向け</button>
+</div>
+
+<div id="map"></div>
+
+<div class="section-label" id="lbl"></div>
+<div class="list" id="list"></div>
+
+<div class="note">
+  <b>使い方と注意</b><br>
+  向き・対応ウネリ・設備は公開情報に基づく一般的な傾向です。遠州灘は速い潮流と強風で地形の変化が激しく、堤防や導流堤などの人工物まわりに地形が決まりやすいためサーファーが集まります。逆にその良いピークはローカルセッションになる時間帯も多いので、状況を見てから空いているピークに入るのが無難です。離岸流も強く出るので、当日のライブカメラ・波予報・現地ショップで必ず確認してください。「先端」はリーフでエキスパート限定です。<br><br>
+  茨城（鹿島灘）は太平洋に突き出した地形で北東うねりに敏感に反応します。北部はリーフや玉石のパワフルなブレイクが多くローカル色も強め、南部は砂浜主体で初心者が入りやすい傾向。北東風と強い北うねりが天敵で、その条件では大洗・大貫にサーファーが集中しトラブルも起きがちなので、空いているピークを選んでください。<br><br>
+  鹿島エリアは概ね2〜3kmごとにヘッドランドが設置され、その周辺にクオリティの高い波が集まります。裏を返すとヘッドランド両サイドのピークはローカルセッションになりやすく、大人数での同時エントリーはトラブルのもと。ヘッドランド周りは強烈なカレントが出るので、レベルを問わず流れの確認を。真夏でも南〜南西風が続くと水温が下がるため、ウェットは車に積んでおくと安心です。<br><br>
+  ※「滝浜」「ママ下」「冷水」「岡堀米」「サリマノ」「ミラー」「一条」「大倉戸」などの通称ポイントは、正確な座標が特定できず未収録です。
+</div>
+
+<footer>参考：Surfers' Ocean、Surf life、波乗り波情報ナビ、日本のサーフポイント888、BCM波情報 ほか公開情報。座標はGoogle Places実測値および出典掲載値。地図 © OpenStreetMap contributors</footer>
+
+<script>
+const S=(o)=>o;
+const spots=[
+/* ========== 愛知・知多半島 ========== */
+{id:'utsumi',pref:'aichi',grp:'愛知｜知多半島',name:'内海（千鳥ヶ浜）',area:'知多郡南知多町',lat:34.7370,lng:136.8674,lv:'b',lvT:'初級',
+ dir:'南西向き（伊勢湾口）',swell:'南西〜西のウネリ',off:'北〜北東の風',tide:'満ち込み〜満潮',bottom:'ビーチ（サンド）',
+ desc:'名古屋から最も近い部類のポイント。伊勢湾寄りで外洋より穏やかになりやすく、渥美がクローズした日の避難先や初心者の練習向き。ライブカメラあり。',
+ facil:'駐車場：有料（夏季目安1,500円）／トイレ：有り／シャワー：夏季有り',
+ food:'南知多の大あさり・しらす丼、日間賀島のタコ',onsen:'南知多温泉郷（内海・山海）',q:'内海千鳥ヶ浜海水浴場 愛知県南知多町'},
+{id:'yamami',pref:'aichi',grp:'愛知｜知多半島',name:'山海',area:'知多郡南知多町',lat:34.7195,lng:136.8971,lv:'b',lvT:'初級',
+ dir:'南西向き',swell:'南西〜西のウネリ',off:'北〜北東の風',tide:'満ち込み',bottom:'ビーチ（サンド）',
+ desc:'内海の南隣。小ぶりで静かなビーチ。混雑を避けたいときの選択肢で、波はマイルドになりやすい。',
+ facil:'駐車場：夏季有料／トイレ：有り／シャワー：夏季有り',
+ food:'南知多の海鮮、近くにコンビニ',onsen:'南知多温泉郷（山海）',q:'山海海水浴場 愛知県南知多町'},
+
+/* ========== 愛知・表浜（豊橋） ========== */
+{id:'kojima',pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'小島',area:'豊橋市小島町',lat:34.6689,lng:137.4456,lv:'m',lvT:'初中級',
+ dir:'南南東向き',swell:'東〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'典型的なビーチブレイク。地形が決まればパワーのある波になり、夏場は賑わうメジャーポイント。波質は比較的イージー。釣り人も多いので互いに距離を。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：無し',
+ food:'豊橋カレーうどん、道の駅潮見坂（車で約20分）',onsen:'三谷温泉（車で約50分）',q:'小島町海岸 愛知県豊橋市'},
+{id:'terasawa',pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'寺沢',area:'豊橋市寺沢町',lat:34.6668,lng:137.4294,lv:'m',lvT:'中級',
+ dir:'南南東向き',swell:'東〜南西。西寄りの反応は赤羽根方面より良い',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'豊橋のメジャーポイント。風に弱くすぐ影響を受け、地形の変化も大きくブレイク位置がよく動きます。こまめな波チェックが効くタイプ。',
+ facil:'駐車場：有り／トイレ：有り（寺沢海岸公衆トイレ）／シャワー：無し',
+ food:'豊橋市街のカレーうどん・うなぎ',onsen:'豊橋・蒲郡方面の日帰り湯',q:'寺沢海岸 愛知県豊橋市寺沢町'},
+{id:'ikobe',pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'伊古部',area:'豊橋市伊古部町',lat:34.6556,lng:137.39211,lv:'a',lvT:'中〜上級',
+ dir:'南南東向き',swell:'東〜南西（ベストは南東）',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'ホローな良い波が立つポイント。サイズが上がるとパワーも増し、カレントが強く出るので初心者は注意。ローカル色がやや強くマナー重視で。',
+ facil:'駐車場：無料有り／トイレ：有り／シャワー：無し',
+ food:'豊橋カレーうどん、渥美半島の直売所',onsen:'三谷温泉（車で約40分）',q:'伊古部海岸 愛知県豊橋市伊古部町'},
+
+/* ========== 愛知・表浜（田原東部） ========== */
+{id:'gumihara',pref:'aichi',grp:'愛知｜表浜（田原・東部）',name:'久美原',area:'田原市六連町',lat:34.6467,lng:137.3366,lv:'m',lvT:'中級',
+ dir:'南南東向き',swell:'東〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'表浜の中でも人が少なくメローな雰囲気。設備は最小限だが空いていることが多く、夕景がきれい。',
+ facil:'駐車場：無料有り／トイレ：無し／シャワー：無し',
+ food:'国道42号沿いの食堂、渥美の直売所',onsen:'伊良湖温泉（車で約35分）',q:'久美原海岸 愛知県田原市六連町'},
+{id:'mutsure',pref:'aichi',grp:'愛知｜表浜（田原・東部）',name:'六連（浜田海岸）',area:'田原市六連町',lat:34.6436,lng:137.3252,lv:'m',lvT:'中級',
+ dir:'南南東向き',swell:'東〜南西のウネリ',off:'北寄りの風',tide:'満潮時は浜が狭い',bottom:'ビーチ（サンド）',
+ desc:'崖が海際まで迫る渥美半島らしい浜。国道42号からの入口が分かりにくいので位置を事前確認しておくと安心。',
+ facil:'駐車場：少数／トイレ：無し／シャワー：無し',
+ food:'渥美のメロン・キャベツ直売所',onsen:'伊良湖温泉',q:'浜田海岸 愛知県田原市六連町'},
+{id:'dodo',pref:'aichi',grp:'愛知｜表浜（田原・東部）',name:'百々',area:'田原市六連町',lat:34.6414,lng:137.3146,lv:'m',lvT:'中級',
+ dir:'南南東向き',swell:'東〜南西。西寄りの反応が赤羽根方面より良い傾向',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'寺沢〜百々のラインは西うねりを拾いやすいエリア。地形の変化が激しく、サイズアップするとワイドなブレイクが目立ちます。遊泳・潮干狩りは不可。',
+ facil:'駐車場：有り（狭め）／トイレ：有り／シャワー：無し',
+ food:'国道42号沿いの海鮮食堂',onsen:'伊良湖温泉',q:'百々海岸 愛知県田原市六連町'},
+
+/* ========== 愛知・赤羽根 ========== */
+{id:'longbeach',pref:'aichi',grp:'愛知｜赤羽根エリア',name:'ロングビーチ',area:'田原市赤羽根町',lat:34.61305,lng:137.21922,lv:'m',lvT:'初中〜上級',
+ dir:'南南東向き',swell:'東〜南西（ベストは南東）',off:'北寄りの風。東風は多少かわす',tide:'サイズ次第で幅広く対応',bottom:'ビーチ（サンド）※左側の一部に岩',
+ desc:'東海を代表するメジャーポイント。2018年ISA世界サーフィン大会のほか、WSL・JPSAのコンテストも開催。小波からハードまで対応でき波質が安定しやすく、岩場からブレイクする波が特に上質。サイズが上がるとカレントが強いので初心者は入水を控えて。',
+ facil:'駐車場：無料有り／トイレ：有り／シャワー：有料＋足洗い場／レンタル・スクールのあるショップ複数',
+ food:'道の駅あかばねロコステーション、渥美牛・しらす',onsen:'伊良湖温泉（車で約30分）',q:'赤羽根ロングビーチ 愛知県田原市赤羽根町'},
+{id:'loco',pref:'aichi',grp:'愛知｜赤羽根エリア',name:'ロコ・港',area:'田原市池尻町〜赤羽根町',lat:34.6065,lng:137.1940,lv:'m',lvT:'初級〜上級',
+ dir:'南南東向き',swell:'東〜南西（ベストは南東）',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'赤羽根漁港の東側が「ロコ」、漁港前が「港」。厚めの波でロングにもショートにも乗りやすく、条件が揃うと good。ライブカメラが設置され波チェックしやすい反面、混雑もしやすい。',
+ facil:'駐車場：港西駐車場（路上駐車は近隣の迷惑になるので厳禁）／トイレ：有り／シャワー：無し',
+ food:'道の駅あかばねロコステーション、赤羽根漁港周辺の食堂',onsen:'伊良湖温泉',q:'赤羽根漁港 愛知県田原市赤羽根町'},
+{id:'zennihon',pref:'aichi',grp:'愛知｜赤羽根エリア',name:'全日本',area:'田原市池尻町',lat:34.60209,lng:137.18516,lv:'m',lvT:'初級〜上級',
+ dir:'南南東向き',swell:'東〜南西（ベストは南東）',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'漁港の西側。ロングビーチと並ぶ人気ポイントで、初心者から上級者まで楽しめる厚めの波。地形の良いピークは特に混雑するのでピーク選びに配慮を。',
+ facil:'駐車場：港西駐車場／トイレ：有り／シャワー：無し',
+ food:'道の駅あかばねロコステーション',onsen:'伊良湖温泉',q:'全日本 サーフポイント 愛知県田原市池尻町'},
+{id:'shinnihon',pref:'aichi',grp:'愛知｜赤羽根エリア',name:'新日本',area:'田原市高松町',lat:34.6012,lng:137.1811,lv:'m',lvT:'中級',
+ dir:'南南東向き',swell:'東〜南西（ベストは南東）',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'全日本のさらに西。SNSでも動画がよく上がる人気ピーク。近くにレンタル・スクールを行うサーフショップがあり、初めてのエリアでも準備しやすい。',
+ facil:'駐車場：港西駐車場ほか／トイレ：有り／シャワー：無し',
+ food:'田原市内の渥美牛・キャベツ料理',onsen:'伊良湖温泉',q:'新日本 サーフポイント 愛知県田原市高松町'},
+
+/* ========== 愛知・伊良湖先端部 ========== */
+{id:'horikiri',pref:'aichi',grp:'愛知｜伊良湖先端部',name:'堀切',area:'田原市堀切町',lat:34.5833,lng:137.0549,lv:'m',lvT:'中〜上級',
+ dir:'南向き',swell:'南〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ＋一部岩',
+ desc:'伊良湖菜の花ガーデンから徒歩数分で降りられる海岸。外洋の広がりを感じるロケーションで、台風接近時はかなりハード。駐車スペースは比較的豊富。',
+ facil:'駐車場：有り／トイレ：季節により有り／シャワー：無し',
+ food:'伊良湖・道の駅クリスタルポルト',onsen:'伊良湖温泉',q:'堀切海岸 愛知県田原市堀切町'},
+{id:'sekimon',pref:'aichi',grp:'愛知｜伊良湖先端部',name:'石門（日出の石門）',area:'田原市日出町',lat:34.5785,lng:137.0384,lv:'a',lvT:'上級',
+ dir:'南向き',swell:'南〜南西のウネリ',off:'北寄りの風',tide:'干潮時は岩が浅く危険',bottom:'岩混じり',
+ desc:'名勝・日出の石門の前。景勝地として有名ですが波は岩がらみでハード。浜へは急な階段があり、大波時は足元まで波が上がるので単独入水は避けて。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：無し',
+ food:'恋路ヶ浜の大あさり焼き',onsen:'伊良湖温泉',q:'日出の石門 愛知県田原市日出町'},
+{id:'koiji',pref:'aichi',grp:'愛知｜伊良湖先端部',name:'恋路ヶ浜',area:'田原市伊良湖町',lat:34.5804,lng:137.0259,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'南〜南西のウネリ',off:'北寄りの風',tide:'満ち込み',bottom:'ビーチ（サンド）',
+ desc:'伊良湖岬の景勝ビーチ。観光客も多いので入水位置に配慮を。うねりが入ればきれいなビーチブレイクになり、周辺に飲食店が揃うので日帰りの拠点にしやすい。',
+ facil:'駐車場：無料有り／トイレ：有り／シャワー：無し',
+ food:'恋路ヶ浜の大あさり焼き・しらす丼、伊良湖港の海鮮',onsen:'伊良湖温泉（すぐ近く）',q:'恋路ヶ浜 愛知県田原市伊良湖町'},
+{id:'sentan',pref:'aichi',grp:'愛知｜伊良湖先端部',name:'先端',area:'田原市伊良湖町',lat:34.58321,lng:137.01671,lv:'a',lvT:'上級限定',
+ dir:'西向き（エリア唯一）',swell:'南西〜南（ベストは南）',off:'東寄りの風',tide:'干潮時は根が浅く要注意',bottom:'リーフ（岩）',
+ desc:'伊良湖エリア唯一の西向きで、他がクローズした時に成立します。ブレイクの下に岩が隠れ、サイズが上がると右のテトラに向かって強いカレントが発生。エキスパートオンリー。海上保安庁のライブカメラあり。',
+ facil:'駐車場：無料有り／トイレ：有り／シャワー：無し',
+ food:'伊良湖港の大あさり・しらす、道の駅クリスタルポルト',onsen:'伊良湖温泉',q:'伊良湖 先端 サーフポイント 田原市伊良湖町'},
+
+/* ========== 静岡・湖西 ========== */
+{id:'shiomi',pref:'shizuoka',hama:1,grp:'静岡｜湖西（県境）',name:'潮見（潮見坂）',area:'湖西市白須賀',lat:34.67633,lng:137.52142,lv:'m',lvT:'初中級',
+ dir:'南向き',swell:'東〜南西（ベストは南東）',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'愛知との県境近く。浜が東西に広く、駐車場から少し歩けば空いているセクションを見つけやすいのが静岡エリアの利点。ライブカメラも設置。',
+ facil:'駐車場：無料有り／トイレ：有り／シャワー：無し',
+ food:'道の駅潮見坂の遠州灘しらす、浜名湖のうなぎ',onsen:'道の駅潮見坂の足湯、舘山寺温泉（車で約40分）',q:'潮見坂 サーフポイント 静岡県湖西市白須賀'},
+{id:'araihama',pref:'shizuoka',hama:1,grp:'静岡｜湖西（県境）',name:'新居浜',area:'湖西市新居町新居',lat:34.6826,lng:137.5874,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜南西のウネリ',off:'北寄りの風',tide:'半潮〜上げ潮',bottom:'玉石まじり',
+ desc:'今切口の西側。ボトムに玉石が入るため足元に注意が必要ですが、導流堤まわりで地形が決まりやすいのが特徴。新居弁天海浜公園が目印。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：夏季有り',
+ food:'新居・弁天島のうなぎ、浜名湖の牡蠣',onsen:'弁天島・舘山寺温泉',q:'新居弁天海浜公園 静岡県湖西市新居町'},
+
+/* ========== 静岡・浜松 ========== */
+{id:'maisaka',pref:'shizuoka',hama:1,grp:'静岡｜浜松（遠州灘西部）',name:'舞阪メイン',area:'浜松市中央区舞阪町',lat:34.67365,lng:137.60272,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜南西（ベストは南東）',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'静岡西部のメジャーポイント。浜名バイパス経由でアクセスしやすく、人工物まわりに地形が決まりやすいので人が集まります。良いピークはローカルセッションになる時間帯も。',
+ facil:'駐車場：有料有り／トイレ：有り／シャワー：無し',
+ food:'舞阪港のしらす丼、浜名湖のうなぎ・牡蠣',onsen:'舘山寺温泉',q:'舞阪 サーフポイント 浜松市中央区舞阪町'},
+{id:'maisakatodai',pref:'shizuoka',hama:1,grp:'静岡｜浜松（遠州灘西部）',name:'舞阪灯台前',area:'浜松市中央区舞阪町',lat:34.6788,lng:137.6128,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'舞阪灯台を目印にしたピーク。メインが混んでいる時の逃げ場になりますが、駐車スペースが限られるので路上駐車は避けて。',
+ facil:'駐車場：少数／トイレ：無し／シャワー：無し',
+ food:'舞阪港のしらす、弁天島の海鮮',onsen:'舘山寺温泉',q:'舞阪灯台 静岡県浜松市中央区舞阪町'},
+{id:'shinohara',pref:'shizuoka',hama:1,grp:'静岡｜浜松（遠州灘西部）',name:'篠原',area:'浜松市中央区篠原町',lat:34.6722,lng:137.6609,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'舞阪と小沢渡の間。人が少なく静かに入れることが多い一方、設備がほとんど無く駐車スペースも少なめ。地形次第で当たり外れが大きいエリア。',
+ facil:'駐車場：少数／トイレ：無し／シャワー：無し',
+ food:'篠原の農産直売所、浜松市街のうなぎ',onsen:'舘山寺温泉',q:'篠原海岸 静岡県浜松市中央区篠原町'},
+{id:'kozawatari',pref:'shizuoka',hama:1,grp:'静岡｜浜松（遠州灘西部）',name:'小沢渡',area:'浜松市中央区小沢渡町',lat:34.6710,lng:137.6802,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'古くから「コーナー」の通称で波チェックに使われてきた一帯。開けたビーチで人は少なめ。水際は砂がぬかるむことがあり、トイレ・自販機は無し。',
+ facil:'駐車場：5〜6台程度／トイレ：無し／シャワー：無し',
+ food:'浜松市街のうなぎ・餃子',onsen:'舘山寺温泉',q:'小沢渡町海岸 静岡県浜松市中央区'},
+
+{id:'enshuhama',pref:'shizuoka',hama:1,grp:'静岡｜浜松（中田島周辺）',name:'遠州浜',area:'浜松市中央区新橋町',lat:34.6668,lng:137.7061,lv:'m',lvT:'中〜上級',
+ dir:'南向き',swell:'東〜西の幅広いウネリ',off:'北寄りの風',tide:'干潮〜上げ始め',bottom:'ビーチ（サンド）',
+ desc:'駐車場が整備されアクセスしやすいロングビーチ。カレントが非常に強く遊泳は危険と掲示されるエリアなので、入水位置と流れの確認は入念に。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：無し',
+ food:'浜松のうなぎ、浜松餃子',onsen:'舘山寺温泉（車で約30分）',q:'遠州浜海岸 静岡県浜松市中央区新橋町'},
+{id:'nakatajima',pref:'shizuoka',hama:1,grp:'静岡｜浜松（中田島周辺）',name:'中田島',area:'浜松市中央区中田島町',lat:34.6609,lng:137.7433,lv:'a',lvT:'中〜上級',
+ dir:'南向き',swell:'東〜西の幅広いウネリ',off:'北寄りの風',tide:'干潮〜上げ始め',bottom:'ビーチ（サンド・急深）',
+ desc:'日本三大砂丘のひとつに面した、遠州灘を代表するビーチブレイクの宝庫。反応は非常に良い一方、急深で離岸流が強い。ウミガメの産卵地でもあり、シーズン中は立ち入りルールを確認。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：無し',
+ food:'浜松のうなぎ、遠州灘天然とらふぐ、浜松餃子',onsen:'舘山寺温泉',q:'中田島砂丘 浜松市中央区中田島町'},
+{id:'goto',pref:'shizuoka',hama:1,grp:'静岡｜浜松（中田島周辺）',name:'五島',area:'浜松市中央区江之島町',lat:34.6566,lng:137.7493,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜西の幅広いウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'中田島の東隣、三軒屋海岸とも呼ばれる一帯。海岸近くまで車で入れる場所があり波チェックがしやすい。遊泳には向かず、サーフィンと釣りの利用が中心。',
+ facil:'駐車場：有り／トイレ：無し／シャワー：無し',
+ food:'浜松のうなぎ、南区の直売所',onsen:'舘山寺温泉',q:'五島海岸 静岡県浜松市中央区江之島町'},
+{id:'tenryu',pref:'shizuoka',hama:1,grp:'静岡｜浜松（中田島周辺）',name:'天竜川河口',area:'浜松市中央区松島町',lat:34.64716,lng:137.78515,lv:'a',lvT:'中〜上級',
+ dir:'南向き',swell:'東〜西の幅広いウネリ',off:'北寄りの風',tide:'干潮〜上げ始め',bottom:'ビーチ（サンド）',
+ desc:'河口が運ぶ砂でサンドバーが形成され、決まればシャープなブレイクに。トイレ等の設備が無いので事前準備を。増水後は流木と濁りに注意。',
+ facil:'駐車場：有り／トイレ：無し／シャワー：無し',
+ food:'浜松のうなぎ、遠州の農産直売所',onsen:'浜松市内の日帰り湯',q:'天竜川河口 サーフポイント 浜松市中央区松島町'},
+
+/* ========== 静岡・磐田/袋井 ========== */
+{id:'komaba',pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'駒場（竜洋海岸）',area:'磐田市駒場',lat:34.6478,lng:137.8043,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'天竜川の東側。竜洋海洋公園・キャンプ場が隣接し、テニスコートや公衆浴場など周辺施設が充実しているので家族連れの遠征拠点にしやすい。駐車場は小さめ。',
+ facil:'駐車場：5〜6台程度＋公園駐車場／トイレ：有り／シャワー：周辺施設に有り',
+ food:'竜洋の産直、磐田市街の飲食店',onsen:'竜洋海洋公園の日帰り入浴施設',q:'竜洋海岸 静岡県磐田市駒場'},
+{id:'samejima',pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'鮫島',area:'磐田市鮫島',lat:34.6587,lng:137.8482,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'砂丘がゆるやかで駐車場から水際までが近く、道具を運びやすいのが利点。第2駐車場もあり混雑時も停めやすい。堤防工事の状況で導線が変わることがあります。',
+ facil:'駐車場：有り（第2駐車場あり）／トイレ：有り／シャワー：水道有り',
+ food:'磐田市街の食堂、福田のしらす',onsen:'磐田・袋井の日帰り湯',q:'鮫島海岸 静岡県磐田市鮫島'},
+{id:'nishihama',pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'西浜（福田）',area:'磐田市福田',lat:34.6627,lng:137.8799,lv:'m',lvT:'中級',
+ dir:'南向き',swell:'東〜西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'福田漁港の西側。漁港の人工物まわりで地形が決まりやすいエリア。堤防工事で浜への入り方が制限される時期があるので現地表示に従ってください。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：無し',
+ food:'福田漁港のしらす、磐田のメロン',onsen:'袋井・磐田の日帰り湯',q:'福田海岸 静岡県磐田市福田'},
+{id:'toyohama',pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'豊浜（浅羽海岸）',area:'袋井市湊',lat:34.6681,lng:137.9238,lv:'b',lvT:'初中級',
+ dir:'南向き',swell:'東〜西のウネリ',off:'北寄りの風',tide:'半潮〜上げ潮',bottom:'ビーチ（サンド）',
+ desc:'観光地化していない静かな浜で、2kmほど続く砂浜に人がまばら。混雑を避けて練習したいときに向きます。海岸まで車では入れず、なぎさの交流館の駐車場から歩き。',
+ facil:'駐車場：なぎさの交流館ほか／トイレ：有り／シャワー：施設に有り',
+ food:'袋井のクラウンメロン、福田のしらす',onsen:'袋井の日帰り湯',q:'浅羽海岸 静岡県袋井市湊'},
+
+/* ========== 静岡・御前崎/牧之原 ========== */
+{id:'omaezaki',pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'御前崎（メイン・メロン前・坂下）',area:'御前崎市御前崎〜白羽',lat:34.59746,lng:138.20566,lv:'m',lvT:'初中〜上級',
+ dir:'南向き',swell:'東〜西の幅広いウネリ（ベストは南東）',off:'北寄りの風',tide:'ポイントにより異なる',bottom:'ビーチ（サンド）',
+ desc:'遠州灘の東端。メイン、メロン前、坂下、尾高、ロングビーチなど複数のブレイクが並び、風とうねりの向きで使い分けられるのが最大の強み。ライブカメラも複数。',
+ facil:'駐車場：無料有り／トイレ：有り／シャワー：マリンパーク御前崎に無料シャワー・更衣室',
+ food:'なぶら市場のマグロ・カツオ、御前崎のしらす丼',onsen:'御前崎温泉、さがら子生れ温泉会館',q:'御前崎 サーフポイント マリンパーク御前崎'},
+{id:'sagara',pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'さがらサンビーチ',area:'牧之原市相良',lat:34.6826,lng:138.2041,lv:'b',lvT:'初級',
+ dir:'南向き',swell:'南〜南東のウネリ',off:'北寄りの風',tide:'満ち込み',bottom:'ビーチ（サンド・遠浅）',
+ desc:'遠浅で波が比較的穏やか。ファミリーや練習向きで、条件が合えば富士山を望めます。シャワー・トイレが整備され初めてのエリアでも使いやすい。',
+ facil:'駐車場：有り（夏季有料 目安600円）／トイレ：有り／シャワー：有り',
+ food:'相良の桜えび・しらす、牧之原の茶カフェ',onsen:'さがら子生れ温泉会館（源泉かけ流しの日帰り湯）',q:'さがらサンビーチ 静岡県牧之原市'},
+{id:'shizunami',pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'静波',area:'牧之原市静波',lat:34.7313,lng:138.2324,lv:'b',lvT:'初中級',
+ dir:'南向き',swell:'南〜南東のウネリ',off:'北寄りの風',tide:'半潮〜満ち込み',bottom:'ビーチ（サンド）',
+ desc:'県内屈指の人気ビーチで年間を通してサーファーが集まります。駐車場・トイレが充実。すぐ近くに大型ウェイブプール「静波サーフスタジアム PerfectSwell」があり、フラットな日の代替にも。',
+ facil:'駐車場：無料有り（夏季は有料区分あり）／トイレ：有り／シャワー：有り',
+ food:'吉田港のしらす、牧之原の深蒸し茶スイーツ',onsen:'さがら子生れ温泉会館',q:'静波海岸 静岡県牧之原市静波'},
+
+/* ========== 静岡・駿河/伊豆 ========== */
+{id:'tagonoura',pref:'shizuoka',grp:'静岡｜駿河・伊豆',name:'田子の浦',area:'富士市',lat:35.1433,lng:138.6956,lv:'m',lvT:'中級',
+ dir:'南向き（駿河湾）',swell:'南〜南東のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（急深）',
+ desc:'条件が合えば正面に富士山を望みながら乗れるロケーション。湾内のため遠州灘よりうねりの反応は鈍め。急深なショアブレイクに注意。',
+ facil:'駐車場：有り／トイレ：港湾施設周辺に有り／シャワー：無し',
+ food:'田子の浦港漁協食堂の生しらす丼',onsen:'富士・富士宮の富士山ビュー日帰り温泉',q:'田子の浦港 静岡県富士市'},
+{id:'tatado',pref:'shizuoka',grp:'静岡｜駿河・伊豆',name:'多々戸浜',area:'下田市吉佐美',lat:34.6609,lng:138.9320,lv:'a',lvT:'中〜上級',
+ dir:'南向き',swell:'南〜南東のウネリ',off:'北〜北西の風',tide:'半潮〜上げ潮',bottom:'ビーチ（サンド）',
+ desc:'伊豆を代表する名ポイント。大会も開かれる質の高いビーチブレイクで、パワーがある分ローカルも多く混雑しやすい。岩場が鋭いので端には近づかないこと。',
+ facil:'駐車場：有り（夕方閉鎖する時期あり）／トイレ：有り／シャワー：有り',
+ food:'下田の金目鯛煮付け、地魚の海鮮丼',onsen:'蓮台寺温泉、下田温泉',q:'多々戸浜 静岡県下田市吉佐美'},
+{id:'irita',pref:'shizuoka',grp:'静岡｜駿河・伊豆',name:'入田浜',area:'下田市吉佐美',lat:34.6587,lng:138.9276,lv:'b',lvT:'初中級',
+ dir:'南向き',swell:'南〜南東のウネリ',off:'北〜北西の風',tide:'満ち込み',bottom:'ビーチ（白砂）',
+ desc:'多々戸浜の隣。白砂とヤシ並木の南国的なビーチで、多々戸よりマイルドになりやすく初中級でも入りやすい。浜沿いにボードレンタルの店あり。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：有り',
+ food:'下田の金目鯛、浜沿いのピザ・カフェ',onsen:'蓮台寺温泉、下田温泉',q:'入田浜 静岡県下田市吉佐美'},
+{id:'shirahama',pref:'shizuoka',grp:'静岡｜駿河・伊豆',name:'白浜大浜',area:'下田市白浜',lat:34.6895,lng:138.9728,lv:'b',lvT:'初級〜中級',
+ dir:'東南東向き',swell:'東〜南東のウネリ',off:'西寄りの風',tide:'どの潮位でも入りやすい',bottom:'ビーチ（白砂）',
+ desc:'伊豆最大級の白砂ビーチ。多々戸などが反応しない東うねりを拾うため、伊豆エリア内で使い分けができます。夏は海水浴客が多く遊泳区域の制限に注意。',
+ facil:'駐車場：有り（16時頃閉鎖する区画あり）／トイレ：有り／シャワー：有り',
+ food:'下田の金目鯛、白浜沿いの海鮮食堂',onsen:'白浜温泉、下田温泉',q:'白浜大浜海水浴場 静岡県下田市白浜'},
+
+/* ========== 茨城・北部（北茨城〜日立） ========== */
+{id:'futatsushima',pref:'ibaraki',grp:'茨城｜北部（北茨城・高萩）',name:'二ツ島',area:'北茨城市磯原町',lat:36.8063,lng:140.7615,lv:'b',lvT:'初中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ＋岩',
+ desc:'茨城最北エリア。二ツ島を望む景勝地で、北うねりに敏感。北部の中ではビジターや初中級でも入りやすい部類とされます。ローカル色は強めなので挨拶とピーク選びを丁寧に。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：夏季有り',
+ food:'北茨城のあんこう料理、平潟港の海鮮',onsen:'二ツ島観光ホテルの日帰り入浴、五浦温泉',q:'二ツ島 茨城県北茨城市磯原町'},
+{id:'takahagi',pref:'ibaraki',grp:'茨城｜北部（北茨城・高萩）',name:'高萩（高戸小浜）',area:'高萩市高戸',lat:36.7208,lng:140.7278,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'岩まじり',
+ desc:'岩が点在する入り江状の小浜。風の当たりが弱く波が落ち着きやすい反面、うねりのサイズが必要。景観が良く駐車場が無料なのも利点。',
+ facil:'駐車場：無料有り／トイレ：有り／シャワー：無し',
+ food:'高萩・北茨城のあんこう、しらす',onsen:'五浦温泉、高萩の日帰り湯',q:'高戸小浜海岸 茨城県高萩市'},
+{id:'ishihama',pref:'ibaraki',grp:'茨城｜北部（北茨城・高萩）',name:'伊師浜',area:'日立市十王町伊師',lat:36.6658,lng:140.7146,lv:'b',lvT:'初中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮〜上げ潮',bottom:'ビーチ（白砂）',
+ desc:'白砂の広いビーチで、日立エリアの中ではビジターや初心者も入りやすいポイント。すぐ隣に温泉施設「鵜の岬」があり、上がってすぐ温まれるのが強み。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：有り',
+ food:'鵜の岬の食堂、日立市街の海鮮',onsen:'国民宿舎 鵜の岬（日帰り入浴）',q:'伊師浜海水浴場 茨城県日立市十王町'},
+{id:'kawajiri',pref:'ibaraki',grp:'茨城｜北部（北茨城・高萩）',name:'川尻',area:'日立市川尻町',lat:36.6520,lng:140.6999,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'北側の岬が北風をかわしてくれるため、他が荒れている日でも面が整いやすい。駐車場・トイレが無料で使え、遊歩道も整備されています。',
+ facil:'駐車場：無料有り／トイレ：有り／シャワー：無し',
+ food:'川尻漁港周辺の海鮮',onsen:'鵜の岬（車で約10分）',q:'川尻海水浴場 茨城県日立市川尻町'},
+
+/* ========== 茨城・中部（日立〜大洗） ========== */
+{id:'ose',pref:'ibaraki',grp:'茨城｜中部（日立・阿字ヶ浦）',name:'会瀬',area:'日立市会瀬町',lat:36.5804,lng:140.6610,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ＋岩（磯）',
+ desc:'漁港の防波堤に守られた小さな浜。磯場が多く、サイズがある日にまとまりやすい。設備は最小限なので着替えなどは事前準備を。',
+ facil:'駐車場：有り（平日無料）／トイレ：時期により有り／シャワー：無し',
+ food:'日立市街の海鮮、水戸方面の食事処',onsen:'日立・常陸太田の日帰り湯',q:'会瀬海岸 茨城県日立市会瀬町'},
+{id:'kawarago',pref:'ibaraki',grp:'茨城｜中部（日立・阿字ヶ浦）',name:'河原子（北浜）',area:'日立市河原子町',lat:36.5487,lng:140.6440,lv:'b',lvT:'初中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西南西の風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'日立エリアのメジャーポイントで、初心者やビジターも入りやすい代表格。テトラで波が落ち着きやすく、大会も開かれます。カーナビは「河原子海岸北浜」で検索を（南浜と間違えやすい）。',
+ facil:'駐車場：有り（夏季1,000円）／トイレ：有り／シャワー：有り',
+ food:'日立の海鮮、ひたちなかの干物',onsen:'日立の日帰り湯',q:'河原子海岸北浜 茨城県日立市河原子町'},
+{id:'mizuki',pref:'ibaraki',grp:'茨城｜中部（日立・阿字ヶ浦）',name:'水木',area:'日立市水木町',lat:36.5185,lng:140.6339,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'満ち込み（干潮時は砂浜が少ない）',bottom:'ビーチ＋テトラ',
+ desc:'震災後に砂浜が減りテトラと護岸が目立つエリア。駐車場が無料でトイレもあり、人が少ないのが利点。入水・上がりの導線を先に決めておくと安心。',
+ facil:'駐車場：無料（20台程度）／トイレ：有り／シャワー：夏季有り',
+ food:'日立市街の飲食店',onsen:'日立の日帰り湯',q:'水木海水浴場 茨城県日立市水木町'},
+{id:'ajigaura',pref:'ibaraki',grp:'茨城｜中部（日立・阿字ヶ浦）',name:'阿字ヶ浦',area:'ひたちなか市阿字ヶ浦町',lat:36.3856,lng:140.6168,lv:'m',lvT:'初中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'茨城中部の代表的ビーチ。駐車場が海のすぐ前にあり、トイレ・シャワーも整備されて使い勝手が良い。ひたちなか港の沖堤の影響でうねりが入りにくい日もあるため、他が大きい日のチェック先として有効。',
+ facil:'駐車場：有り（500〜1,000円）／トイレ：有り／シャワー：有り',
+ food:'那珂湊おさかな市場の海鮮丼・寿司',onsen:'阿字ヶ浦温泉のぞみ',q:'阿字ヶ浦海水浴場 茨城県ひたちなか市'},
+
+{id:'oarai',pref:'ibaraki',grp:'茨城｜大洗・大貫',name:'大洗（水族館前）',area:'東茨城郡大洗町磯浜町',lat:36.3336,lng:140.5940,lv:'a',lvT:'中〜上級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ＋岩・人工物',
+ desc:'茨城の天敵である北東風や強い北うねりを軽減してくれる貴重なポイント。小さい日でも波が割れる反面、限られたピークの取り合いになりやすく、コンディションが良い日は混雑とトラブルが起きがち。初心者向きではありません。カーナビはアクアワールド大洗にセットを（大洗サンビーチとは別）。',
+ facil:'駐車場：水族館周辺の駐車場／トイレ：有り／シャワー：無し',
+ food:'那珂湊おさかな市場、大洗のしらす・あんこう',onsen:'大洗ゆっくら健康館',q:'アクアワールド茨城県大洗水族館'},
+{id:'oaraisun',pref:'ibaraki',grp:'茨城｜大洗・大貫',name:'大洗サンビーチ',area:'東茨城郡大洗町港中央',lat:36.3027,lng:140.5678,lv:'b',lvT:'初級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'満ち込み',bottom:'ビーチ（サンド・遠浅）',
+ desc:'日本初のバリアフリービーチとして知られる広く遠浅の浜。波はマイルドになりやすく設備も充実しているので、初めての茨城遠征や練習向き。駐車場から波打ち際までかなり歩きます。',
+ facil:'駐車場：大規模／トイレ：有り／シャワー：有り',
+ food:'大洗海鮮市場、めんたいパーク大洗',onsen:'大洗ゆっくら健康館',q:'大洗サンビーチ海水浴場 茨城県大洗町'},
+{id:'onuki',pref:'ibaraki',grp:'茨城｜大洗・大貫',name:'大貫（海の子・つるかめ・闘犬場下）',area:'東茨城郡大洗町大貫町',lat:36.2986,lng:140.5592,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'サンビーチの南に続く一帯で、「海の子」「つるかめ」「闘犬場下」「正面」など複数のピークに分かれます。コンディションが良い日は大洗と合わせてサーファーが集中しがち。ルールを守って空いているピークを選ぶのが賢明。',
+ facil:'駐車場：各ピーク付近に有り／トイレ：一部有り／シャワー：無し',
+ food:'大洗の海鮮、那珂湊おさかな市場',onsen:'大洗ゆっくら健康館',q:'大貫海岸 茨城県東茨城郡大洗町大貫町'},
+
+/* ========== 茨城・南部（鉾田〜鹿嶋〜神栖） ========== */
+{id:'tamada',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'玉田',area:'鉾田市玉田',lat:36.2266,lng:140.5626,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ＋テトラ',
+ desc:'大貫と大竹の間を埋めるポイント。国道51号の大きな看板が目印で、意外とアクセスしやすい割に空いていることが多い。テトラ脇で地形が決まりやすい一方、専用駐車場はサーファー会員制で一般は路肩に停めることになるため、駐車マナーに特に配慮が必要です。',
+ facil:'駐車場：会員制サーファー用駐車場のみ（一般は路肩）／トイレ：無し／シャワー：無し',
+ food:'鉾田のメロン、大洗の海鮮',onsen:'大洗ゆっくら健康館、とっぷさんて大洋',q:'玉田海岸 玉田サンビーチ 茨城県鉾田市玉田'},
+{id:'otake',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'大竹海岸',area:'鉾田市大竹',lat:36.1601,lng:140.5780,lv:'m',lvT:'初中級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'鹿島灘海浜公園に隣接する広いビーチ。駐車場が非常に大きく（数百台規模）、無料で使えるのが最大の利点。人が分散しやすく混雑を避けたい日に向きます。',
+ facil:'駐車場：無料・大規模／トイレ：有り／シャワー：夏季有り',
+ food:'鉾田のメロン、鹿島灘のはまぐり',onsen:'とっぷさんて大洋（車で約15分）',q:'大竹海岸 茨城県鉾田市大竹'},
+{id:'taiyo',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'大洋（汲上）',area:'鉾田市汲上',lat:36.1269,lng:140.5915,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'大竹とトップサンテ下の中間。監視員のいない自由度の高い浜で、波質は良いと評判の一方、県外組とローカルの間に暗黙のすみ分けがあると言われるエリア。混んでいる時間は無理に割り込まず、離れたピークを取るのが無難です。',
+ facil:'駐車場：浜まで車で入れる箇所あり／トイレ：無し／シャワー：無し',
+ food:'鉾田のメロン、鹿島灘のはまぐり',onsen:'とっぷさんて大洋（すぐ南）',q:'大洋海岸 茨城県鉾田市汲上'},
+{id:'topsante',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'トップサンテ下',area:'鉾田市上幡木',lat:36.0868,lng:140.6047,lv:'m',lvT:'中〜上級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ＋テトラ',
+ desc:'温泉施設「とっぷさんて大洋」の下に広がる、茨城でもっとも有名な看板ポイント。うねりを拾いやすく波質も良い。テトラ脇から走るレギュラーはパワーがあり、小さい日でも十分楽しめます。まずここの波を見てから行き先を決めるサーファーも多い。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：施設利用で可',
+ food:'とっぷさんて大洋のレストラン、鉾田のメロン',onsen:'とっぷさんて大洋（海を望む露天風呂）',q:'とっぷさんて大洋 茨城県鉾田市上幡木'},
+{id:'kyochigama',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'京知釜',area:'鉾田市上沢',lat:36.0949,lng:140.6054,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'トップサンテ下のすぐ隣で、上沢に続く一帯。人がとても少なく静かに入れますが、潮流が強く堤防沿いは駐車禁止の表示があります。震災後に護岸が高くなり、階段を上らないと海が見えないので波チェックはひと手間。',
+ facil:'駐車場：路肩不可・限定的／トイレ：無し／シャワー：無し',
+ food:'鉾田のメロン、鹿島灘のはまぐり',onsen:'とっぷさんて大洋（車で数分）',q:'京知釜海岸 茨城県鉾田市上沢'},
+{id:'tsunoore',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'角折',area:'鹿嶋市角折',lat:36.0380,lng:140.6338,lv:'a',lvT:'中〜上級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ＋ヘッドランド',
+ desc:'ヘッドランド脇のパワフルなブレイク。駐車場があるのは利点ですが、ヘッドランド周辺は強烈なカレントが発生し毎年事故も起きているエリア。遊泳は禁止で、サーフィンもレベルに関係なく流れの確認が必須です。護岸工事で入れない時期があります。',
+ facil:'駐車場：有り／トイレ：無し／シャワー：無し',
+ food:'鹿嶋のはまぐり、近隣にコンビニ',onsen:'鹿嶋・神栖の日帰り湯',q:'角折海岸 茨城県鹿嶋市角折'},
+{id:'akashi',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'明石',area:'鹿嶋市明石',lat:35.9962,lng:140.6563,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西〜南西の風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'下津の少し北。南西風が吹いた日に狙われるポイントで、駐車スペースが少ない代わりに海は空いていることが多い。離岸流が出やすいので入水位置の見極めを。',
+ facil:'駐車場：少数／トイレ：無し／シャワー：無し',
+ food:'鹿嶋のはまぐり、鹿島神宮周辺の食事処',onsen:'鹿嶋・神栖の日帰り湯',q:'明石海岸 茨城県鹿嶋市明石'},
+{id:'oritsu',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'下津',area:'鹿嶋市下津',lat:35.9820,lng:140.6644,lv:'b',lvT:'初中級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮〜上げ潮',bottom:'ビーチ（サンド）',
+ desc:'平井の北隣。平井がサイズアップして速くなった日に、ワンサイズ小さいポイントとして移動先になる定番。オフシーズンは駐車無料で、静かに入れることが多い。',
+ facil:'駐車場：有り（夏季1,000円程度）／トイレ：有り／シャワー：有り',
+ food:'鹿嶋のはまぐり、鹿島神宮周辺の食事処',onsen:'鹿嶋・神栖の日帰り湯',q:'下津海水浴場 茨城県鹿嶋市下津'},
+{id:'hirai',pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'平井海岸',area:'鹿嶋市平井',lat:35.9722,lng:140.6710,lv:'b',lvT:'初級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮〜上げ潮',bottom:'ビーチ（サンド）',
+ desc:'茨城で初心者におすすめと言えばまず名前が挙がるポイント。潮来ICから近く駐車場も広め。波質はメローでテイクオフしやすく、ショートからロングまで対応。ただしムネ〜アタマまで上がるとホレ気味の速い波になり上級者が集まるので、その日は下津や波崎へ移るのが賢明。真夏は海水浴場で駐車場が有料に。',
+ facil:'駐車場：広め（夏季有料）／トイレ：有り／シャワー：有り',
+ food:'鹿嶋のはまぐり、鹿島神宮の門前グルメ',onsen:'鹿嶋・神栖の日帰り湯',q:'平井海水浴場 茨城県鹿嶋市平井'},
+{id:'nikkawa',pref:'ibaraki',grp:'茨城｜神栖・波崎',name:'日川浜',area:'神栖市日川',lat:35.8721,lng:140.7387,lv:'b',lvT:'初中級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'松林に囲まれた広い浜。駐車場・トイレ・シャワーが整い、オートキャンプ場も隣接するので家族連れの遠征拠点にしやすい。夏場は監視員のいる海水浴場になります。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：有り',
+ food:'波崎漁港の海鮮、神栖のピーマン',onsen:'神栖・銚子方面の日帰り湯',q:'日川浜海水浴場 茨城県神栖市日川'},
+{id:'fusha',pref:'ibaraki',grp:'茨城｜神栖・波崎',name:'風車前',area:'神栖市矢田部',lat:35.8356,lng:140.7629,lv:'m',lvT:'中級',
+ dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'洋上風車の並ぶ一帯。周囲に何もなく人がとても少ないので、静かに入りたいときに。トイレ・自販機は無く、駐車スペースも10台程度。砂が深く歩きにくいので装備は最小限で。',
+ facil:'駐車場：10台程度／トイレ：無し／シャワー：無し',
+ food:'波崎漁港の海鮮',onsen:'神栖・銚子方面の日帰り湯',q:'波崎ウィンドファーム 茨城県神栖市矢田部'},
+{id:'shari',pref:'ibaraki',grp:'茨城｜神栖・波崎',name:'舎利浜',area:'神栖市波崎',lat:35.7717,lng:140.8151,lv:'m',lvT:'中級',
+ dir:'東〜南東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'波崎の北側、人の少ない静かな浜。江戸期の「うつろ舟」漂着伝説の地としても知られます。設備がほぼ無いので準備を整えてから。',
+ facil:'駐車場：少数／トイレ：無し／シャワー：無し',
+ food:'波崎漁港の海鮮、銚子のイワシ・マグロ',onsen:'銚子方面の日帰り湯',q:'舎利浜 茨城県神栖市波崎'},
+{id:'hasaki',pref:'ibaraki',grp:'茨城｜神栖・波崎',name:'波崎海岸',area:'神栖市波崎',lat:35.7531,lng:140.8323,lv:'b',lvT:'初中級',
+ dir:'東〜南東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
+ desc:'茨城最南端エリア。斜面がきつくなく波のサイズも出るバランスの良いビーチで、平井が大きすぎる日の移動先の定番。駐車場・更衣室・シャワーが揃い、南端にビジターセンターもあります。',
+ facil:'駐車場：有り／トイレ：有り／シャワー：有り（水勢良好）',
+ food:'波崎漁港の海鮮、銚子のイワシ・マグロ',onsen:'銚子方面の日帰り湯',q:'波崎海水浴場 茨城県神栖市波崎'}
+];
+
+const lvCls={b:'lv-b',m:'lv-m',a:'lv-a'};
+const lvColor={b:'#1C7458',m:'#A8630A',a:'#B93F27'};
+const gmaps=s=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.q);
+const listEl=document.getElementById('list'),lbl=document.getElementById('lbl');
+
+function match(s,f){
+  if(f==='all')return true;
+  if(f==='b'||f==='a')return s.lv===f;
+  if(f==='hama')return !!s.hama;
+  return s.pref===f;
+}
+function render(f){
+  listEl.innerHTML='';
+  const arr=spots.filter(s=>match(s,f));
+  lbl.textContent='スポット一覧（'+arr.length+'件）';
+  let lastGrp=null;
+  arr.forEach(s=>{
+    if(s.grp!==lastGrp){
+      const g=document.createElement('div');
+      g.className='grouphead';g.textContent=s.grp;
+      listEl.appendChild(g);lastGrp=s.grp;
+    }
+    const c=document.createElement('div');
+    c.className='card';c.id='c-'+s.id;
+    c.innerHTML=`
+      <div class="card-head">
+        <div class="hl">
+          <div class="pref-tag">${s.area}</div>
+          <div class="card-title">${s.name}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:7px">
+          <span class="lv ${lvCls[s.lv]}">${s.lvT}</span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="card-body"><div class="bi">
+        <div class="grid">
+          <div class="box"><div class="l">ポイントの向き</div><div class="v">${s.dir}</div></div>
+          <div class="box"><div class="l">対応するウネリ</div><div class="v">${s.swell}</div></div>
+          <div class="box"><div class="l">オフショア</div><div class="v">${s.off}</div></div>
+          <div class="box"><div class="l">おすすめ潮位</div><div class="v">${s.tide}</div></div>
+        </div>
+        <div class="blk"><div class="l">地形</div><div class="v">${s.bottom}</div></div>
+        <div class="blk"><div class="l">ポイントの特徴</div><div class="v">${s.desc}</div></div>
+        <div class="facil">${s.facil}</div>
+        <div class="blk"><div class="l">周辺グルメ</div><div class="v">${s.food}</div></div>
+        <div class="blk"><div class="l">周辺の温泉</div><div class="v">${s.onsen}</div></div>
+        <a class="btn" href="${gmaps(s)}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-7.2 7-12a7 7 0 10-14 0c0 4.8 7 12 7 12z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="2"/></svg>
+          Googleマップで開く
+        </a>
+        <div class="src">座標 ${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}</div>
+      </div></div>`;
+    c.querySelector('.card-head').addEventListener('click',()=>c.classList.toggle('open'));
+    listEl.appendChild(c);
+  });
+}
+
+const map=L.map('map',{scrollWheelZoom:false});
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap',maxZoom:18}).addTo(map);
+const icon=c=>L.divIcon({className:'',html:`<div style="width:14px;height:14px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.45)"></div>`,iconSize:[14,14],iconAnchor:[7,7]});
+const markers={};
+spots.forEach(s=>{
+  const m=L.marker([s.lat,s.lng],{icon:icon(lvColor[s.lv])}).addTo(map);
+  m.bindPopup(`<div class="pt">${s.name}</div><div>${s.area}</div>
+    <div style="margin:4px 0">${s.lvT}／${s.swell}</div>
+    <a href="${gmaps(s)}" target="_blank" rel="noopener" style="color:#2FA5A9;font-weight:700">Googleマップで開く</a>`);
+  m.on('click',()=>{const el=document.getElementById('c-'+s.id);if(el){el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'center'});}});
+  markers[s.id]=m;
+});
+
+document.querySelectorAll('.chip').forEach(ch=>{
+  ch.addEventListener('click',()=>{
+    document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+    ch.classList.add('active');
+    const f=ch.dataset.f;
+    render(f);
+    const shown=[];
+    spots.forEach(s=>{
+      const on=match(s,f);
+      const el=markers[s.id].getElement();
+      if(el)el.style.display=on?'':'none';
+      if(on)shown.push([s.lat,s.lng]);
+    });
+    if(shown.length>1)map.fitBounds(shown,{padding:[35,35]});
+    else if(shown.length===1)map.setView(shown[0],12);
+  });
+});
+
+render('all');
+map.fitBounds(spots.map(s=>[s.lat,s.lng]),{padding:[28,28]});
+</script>
+</body>
+</html>
