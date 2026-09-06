@@ -1,0 +1,26 @@
+{
+  "name": "サーフポイントガイド｜愛知・静岡・茨城",
+  "short_name": "サーフポイント",
+  "description": "愛知・静岡・茨城の61サーフポイント。うねりの向き、オフショア、おすすめ潮位、グルメと温泉つき。",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E2A38",
+  "theme_color": "#0E2A38",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
