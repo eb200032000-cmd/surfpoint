@@ -63,58 +63,51 @@
   .src{font-size:10.5px;color:var(--ink-soft)}
 
   /* ---- 予報パネル ---- */
-  .fc{background:var(--navy);color:var(--sand);border-radius:11px;padding:12px 13px;display:flex;flex-direction:column;gap:10px}
+  .fc{background:#fff;color:var(--ink);border-radius:11px;padding:12px 13px;display:flex;flex-direction:column;gap:10px}
   .fc-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-  .fc-ttl{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:13px}
-  .fc-time{font-size:10px;color:#8FA8B0}
+  .fc-ttl{font-family:'Zen Kaku Gothic New',sans-serif;font-weight:900;font-size:13.5px;color:var(--ink)}
+  .fc-time{font-size:10.5px;color:var(--ink-soft);font-weight:700}
   .fc-now{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .fc-cell{background:rgba(255,255,255,.07);border-radius:8px;padding:8px 10px}
-  .fc-cell .l{font-size:9.5px;color:#8FA8B0;font-weight:700;margin-bottom:2px}
-  .fc-cell .v{font-size:15px;font-weight:700;font-family:'Zen Kaku Gothic New',sans-serif;line-height:1.3}
-  .fc-cell .s{font-size:10.5px;color:#B7C8CD}
+  .fc-cell{background:var(--sand);border-radius:8px;padding:8px 10px}
+  .fc-cell .l{font-size:10px;color:var(--ink-soft);font-weight:700;margin-bottom:2px}
+  .fc-cell .v{font-size:15px;font-weight:900;color:var(--ink);font-family:'Zen Kaku Gothic New',sans-serif;line-height:1.3}
+  .fc-cell .s{font-size:10.5px;color:var(--ink-soft);font-weight:500}
   .fc-size{background:var(--teal);color:#052027;border-radius:8px;padding:8px 11px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .fc-size .k{font-size:10.5px;font-weight:700;opacity:.8}
-  .fc-size .b{font-size:17px;font-weight:900;font-family:'Zen Kaku Gothic New',sans-serif}
-  .wind-off{color:#7BE3B6}.wind-side{color:#FFD98A}.wind-on{color:#FF9E86}
+  .fc-size .k{font-size:11px;font-weight:700;color:var(--ink-soft)}
+  .fc-size .b{font-size:18px;font-weight:900;color:var(--ink);font-family:'Zen Kaku Gothic New',sans-serif}
+  .wind-off{color:#0F7A57}.wind-side{color:#9A5A00}.wind-on{color:#B93F27}
   .fc-days{display:flex;gap:6px}
-  .fc-day{flex:1;background:rgba(255,255,255,.07);border-radius:8px;padding:7px 6px;text-align:center}
-  .fc-day .d{font-size:9.5px;color:#8FA8B0;font-weight:700}
-  .fc-day .h{font-size:13px;font-weight:900;font-family:'Zen Kaku Gothic New',sans-serif;margin:2px 0}
-  .fc-day .w{font-size:9.5px;color:#B7C8CD}
-  .tide-wrap{background:rgba(255,255,255,.07);border-radius:8px;padding:9px 10px 5px}
-  .tide-wrap .l{font-size:9.5px;color:#8FA8B0;font-weight:700;margin-bottom:5px;display:flex;justify-content:space-between}
+  .fc-day{flex:1;background:var(--sand);border-radius:8px;padding:7px 6px;text-align:center}
+  .fc-day .d{font-size:10px;color:var(--ink-soft);font-weight:700}
+  .fc-day .h{font-size:13px;font-weight:900;color:var(--ink);font-family:'Zen Kaku Gothic New',sans-serif;margin:2px 0}
+  .fc-day .w{font-size:9.5px;color:var(--ink-soft)}
+  .tide-wrap{background:var(--sand);border-radius:8px;padding:9px 10px 5px}
+  .tide-wrap .l{font-size:10.5px;color:var(--ink-soft);font-weight:700;margin-bottom:5px;display:flex;justify-content:space-between}
   .tide-wrap svg{width:100%;height:auto;display:block}
-  .fc-msg{font-size:11.5px;color:#B7C8CD;text-align:center;padding:8px 0}
-  .fc-note{font-size:9.5px;color:#7D949B;line-height:1.5}
-  .fc-btn{background:rgba(255,255,255,.12);color:var(--sand);border:none;border-radius:7px;padding:6px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer}
+  .fc-msg{font-size:11.5px;color:var(--ink-soft);text-align:center;padding:8px 0}
+  .fc-note{font-size:10.5px;color:var(--ink);line-height:1.6;background:var(--sand-2);border-radius:8px;padding:8px 10px}
+  .fc-btn{background:var(--navy);color:var(--sand);border:none;border-radius:7px;padding:6px 12px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer}
   /* ---- ライブカメラ ---- */
   .cams{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#fff}
   .cams-head{display:flex;align-items:center;gap:7px;padding:8px 11px;background:var(--teal);color:#052027}
   .camtag{display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:700;color:#052027;background:var(--teal);border-radius:99px;padding:3px 7px;white-space:nowrap}
   .cams-head .t{font-size:11.5px;font-weight:700;letter-spacing:.02em}
   .cams-head svg{width:15px;height:15px;flex-shrink:0}
-  .cam-btns{display:flex;flex-wrap:wrap;gap:6px;padding:9px 10px}
-  .cam-btn{display:inline-flex;align-items:center;gap:5px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);
-    padding:6px 10px;border-radius:99px;font-size:11.5px;font-weight:700;font-family:inherit;cursor:pointer;text-decoration:none}
-  .cam-btn.on{background:var(--navy);color:var(--sand)}
-  .cam-btn.ext{border-style:dashed;color:var(--ink-soft);border-color:var(--line)}
-  .cam-stage:empty{display:none}
-  .cam-stage{padding:0 10px 10px}
-  .cam-frame{position:relative;width:100%;padding-top:56.25%;background:#000;border-radius:9px;overflow:hidden}
-  .cam-frame iframe,.cam-frame img{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:contain;background:#000}
-  .cam-meta{font-size:10.5px;color:var(--ink-soft);margin-top:6px;line-height:1.55}
-  .cam-meta a{color:var(--teal);font-weight:700;text-decoration:none;white-space:nowrap}
-  .cam-fail{padding:16px 11px;font-size:12px;color:var(--ink-soft);text-align:center}
+  .cam-btns{display:flex;flex-direction:column;gap:6px;padding:9px 10px}
+  .cam-btn{display:flex;align-items:center;gap:7px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);
+    padding:8px 11px;border-radius:9px;font-size:12.5px;font-weight:700;font-family:inherit;text-decoration:none}
+  .cam-btn .by{margin-left:auto;font-size:10px;font-weight:500;color:var(--ink-soft);text-align:right}
+  .cam-btn .ex{font-size:12px;color:var(--teal);flex-shrink:0}
   .cam-note{font-size:10px;color:var(--ink-soft);padding:0 11px 9px;line-height:1.6}
   /* ---- forecast ---- */
-  .fc{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#fff}
+  .fc{border:1px solid var(--line);border-radius:11px;overflow:hidden;background:#fff;color:var(--ink)}
   .fc-head{display:flex;align-items:center;justify-content:space-between;padding:8px 11px;background:var(--navy);color:var(--sand)}
   .fc-head b{font-size:12.5px;font-family:'Zen Kaku Gothic New',sans-serif}
   .fc-head span{font-size:10.5px;opacity:.75}
   .fc-pad{padding:10px 11px 12px;display:flex;flex-direction:column;gap:10px}
   .fc-msg{padding:14px 11px;font-size:12px;color:var(--ink-soft);text-align:center}
   .fc-now{display:flex;gap:8px;align-items:stretch}
-  .fc-size{flex:1;background:var(--sand);border-radius:9px;padding:8px 10px}
+  .fc-size{flex:1;background:var(--sand-2);border-radius:9px;padding:8px 11px}
   .fc-size .n{font-size:20px;font-weight:900;font-family:'Zen Kaku Gothic New',sans-serif;line-height:1.15}
   .fc-size .s{font-size:10.5px;color:var(--ink-soft);font-weight:700}
   .fc-wind{flex:1;border-radius:9px;padding:8px 10px;color:#fff}
@@ -174,20 +167,20 @@
 <div class="list" id="list"></div>
 
 <div class="note">
-  <b>使い方と注意</b><br>ポイントを開くと、無料で公開されているライブカメラがある場所には「ライブカメラで波を見る」欄が出ます。YouTubeで配信されているものはその場で映像が再生でき、国や県の定点カメラは画像を自動で取り直します。それ以外は配信元の公式ページを開きます。フィルターの「カメラあり」で、映像を確認できるポイントだけに絞り込めます。<br><br>
+  <b>免責について</b><br>本アプリの波・風・潮位は公開されている予測データをそのまま表示した参考値であり、正確性を保証するものではありません。ライブカメラの映像は各配信元の提供によるもので、停止・中断することがあります。<b>入水するかどうかの判断は、必ずご自身の責任で行ってください。</b>本アプリの利用により生じたいかなる損害についても責任を負いかねます。<br><br><b>使い方と注意</b><br>ポイントを開くと、無料で公開されているライブカメラがある場所には「ライブカメラで波を見る」欄が出ます。ボタンを押すと配信元の公式ページが別のタブで開きます。フィルターの「カメラあり」で、カメラのあるポイントだけに絞り込めます。<br><br>
   向き・対応ウネリ・設備は公開情報に基づく一般的な傾向です。遠州灘は速い潮流と強風で地形の変化が激しく、堤防や導流堤などの人工物まわりに地形が決まりやすいためサーファーが集まります。逆にその良いピークはローカルセッションになる時間帯も多いので、状況を見てから空いているピークに入るのが無難です。離岸流も強く出るので、当日のライブカメラ・波予報・現地ショップで必ず確認してください。「先端」はリーフでエキスパート限定です。<br><br>
   各エリアの傾向：<b>函館</b>は亀田半島にビーチからリーフまで点在し、真夏でもウェットが必須。ヒグマの出没情報と漁業権エリアへの立ち入りに注意してください。<b>千葉北（九十九里）</b>は東南東向きで北東〜南東うねりに反応し、設備が整った浜が多く初心者向き。<b>千葉南</b>は一宮・部原など実力派が並ぶ一方、平砂浦だけが南西向きで他が反応しないうねりを拾います。<b>湘南</b>は日本屈指の混雑エリアで、夏は遊泳優先の時間帯制限あり。<b>西湘</b>は玉石で急深、ショアブレイクが強く遊泳禁止の浜もあります。<br><br>  福島（浜通り）は海岸線が南北にまっすぐ続き、北東〜南東の幅広いうねりを通年で拾います。新地・相馬エリアはテトラや堤防まわりにパワフルでホローな波が決まりやすく中級以上向け。南相馬の北泉は無料駐車場200台以上・トイレ・シャワー完備で国際大会も開かれるメジャーポイント、隣の烏崎は左の堤防が北風を、南側の発電所堤防が南風をかわすため風に強く、北泉とセットで使い分けられます。いわきエリアは四倉・豊間・永崎・勿来と設備の整った浜が並び、関東からのアクセスも良好。全体に首都圏より空いていますが、震災後に再整備された浜が多く夏季は海水浴優先でマリンスポーツ規制が入る期間があります。水温は同時期の千葉・茨城より低めなので、ウェットは一枚厚めを見ておくと安心です。<br><br>  茨城（鹿島灘）は太平洋に突き出した地形で北東うねりに敏感に反応します。北部はリーフや玉石のパワフルなブレイクが多くローカル色も強め、南部は砂浜主体で初心者が入りやすい傾向。北東風と強い北うねりが天敵で、その条件では大洗・大貫にサーファーが集中しトラブルも起きがちなので、空いているピークを選んでください。<br><br>
   鹿島エリアは概ね2〜3kmごとにヘッドランドが設置され、その周辺にクオリティの高い波が集まります。裏を返すとヘッドランド両サイドのピークはローカルセッションになりやすく、大人数での同時エントリーはトラブルのもと。ヘッドランド周りは強烈なカレントが出るので、レベルを問わず流れの確認を。真夏でも南〜南西風が続くと水温が下がるため、ウェットは車に積んでおくと安心です。<br><br>
   ※「滝浜」「ママ下」「冷水」「岡堀米」「サリマノ」「ミラー」「一条」「大倉戸」などの通称ポイントは、正確な座標が特定できず未収録です。<br>※福島は「又屋前」「モーテル下」「ラハイナ前」「チキン下」「ブタ下」「灯台下」などの通称ポイント、および帰還困難区域・工事区域に近い浜は未収録です。現地の規制表示に従ってください。
 </div>
 
-<footer>波・風・潮位の予報：Open-Meteo（Marine / Weather Forecast API）。参考：Surfers' Ocean、Surf life、波乗り波情報ナビ、日本のサーフポイント888、BCM波情報 ほか公開情報。座標はGoogle Places実測値および出典掲載値。ライブカメラ：海上保安庁、国土交通省、福島県、神奈川県、静岡県、各自治体、および各配信者が無料公開しているものへのリンク・公式プレーヤー埋め込み。地図 © OpenStreetMap contributors</footer>
+<footer>波・風・潮位の予報：Open-Meteo（Marine / Weather Forecast API）。参考：Surfers' Ocean、Surf life、波乗り波情報ナビ、日本のサーフポイント888、BCM波情報 ほか公開情報。座標はGoogle Places実測値および出典掲載値。ライブカメラ：海上保安庁、国土交通省、福島県、神奈川県、静岡県、各自治体、および各配信者が無料公開しているページへのリンク。波情報は参考値であり、入水の判断は自己責任でお願いします。地図 © OpenStreetMap contributors</footer>
 
 <script>
 const S=(o)=>o;
 const spots=[
 /* ========== 愛知・知多半島 ========== */
-{id:'utsumi',cams:[{t:'ytc',c:'UCFM4GflSxh1UEJK1MJbnsEg',n:'内海海岸',by:'南知多町観光協会'}],pref:'aichi',grp:'愛知｜知多半島',name:'内海（千鳥ヶ浜）',area:'知多郡南知多町',lat:34.7370,lng:136.8674,face:225,lv:'b',lvT:'初級',
+{id:'utsumi',cams:[{t:'link',u:'https://www.youtube.com/channel/UCFM4GflSxh1UEJK1MJbnsEg/streams',n:'内海海岸',by:'南知多町観光協会'}],pref:'aichi',grp:'愛知｜知多半島',name:'内海（千鳥ヶ浜）',area:'知多郡南知多町',lat:34.7370,lng:136.8674,face:225,lv:'b',lvT:'初級',
  dir:'南西向き（伊勢湾口）',swell:'南西〜西のウネリ',off:'北〜北東の風',tide:'満ち込み〜満潮',bottom:'ビーチ（サンド）',
  desc:'名古屋から最も近い部類のポイント。伊勢湾寄りで外洋より穏やかになりやすく、渥美がクローズした日の避難先や初心者の練習向き。ライブカメラあり。',
  facil:'駐車場：有料（夏季目安1,500円）／トイレ：有り／シャワー：夏季有り',
@@ -199,17 +192,17 @@ const spots=[
  food:'南知多の海鮮、近くにコンビニ',onsen:'南知多温泉郷（山海）',q:'山海海水浴場 愛知県南知多町'},
 
 /* ========== 愛知・表浜（豊橋） ========== */
-{id:'kojima',cams:[{t:'yt',v:'g-oTmfTbNBk',n:'小島（漁村コミュニティ施設）',by:'豊橋市'}],pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'小島',area:'豊橋市小島町',lat:34.6689,lng:137.4456,face:157.5,lv:'m',lvT:'初中級',
+{id:'kojima',cams:[{t:'link',u:'https://www.youtube.com/watch?v=g-oTmfTbNBk',n:'小島（漁村コミュニティ施設）',by:'豊橋市'}],pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'小島',area:'豊橋市小島町',lat:34.6689,lng:137.4456,face:157.5,lv:'m',lvT:'初中級',
  dir:'南南東向き',swell:'東〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'典型的なビーチブレイク。地形が決まればパワーのある波になり、夏場は賑わうメジャーポイント。波質は比較的イージー。釣り人も多いので互いに距離を。',
  facil:'駐車場：有り／トイレ：有り／シャワー：無し',
  food:'豊橋カレーうどん、道の駅潮見坂（車で約20分）',onsen:'三谷温泉（車で約50分）',q:'小島町海岸 愛知県豊橋市'},
-{id:'terasawa',cams:[{t:'yt',v:'S8EGB7mcYXg',n:'小松原海岸（東側）',by:'豊橋市'},{t:'yt',v:'feauIt5F5Cw',n:'小松原海岸（西側）',by:'豊橋市'}],pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'寺沢',area:'豊橋市寺沢町',lat:34.6668,lng:137.4294,face:157.5,lv:'m',lvT:'中級',
+{id:'terasawa',cams:[{t:'link',u:'https://www.youtube.com/watch?v=S8EGB7mcYXg',n:'小松原海岸（東側）',by:'豊橋市'},{t:'link',u:'https://www.youtube.com/watch?v=feauIt5F5Cw',n:'小松原海岸（西側）',by:'豊橋市'}],pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'寺沢',area:'豊橋市寺沢町',lat:34.6668,lng:137.4294,face:157.5,lv:'m',lvT:'中級',
  dir:'南南東向き',swell:'東〜南西。西寄りの反応は赤羽根方面より良い',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'豊橋のメジャーポイント。風に弱くすぐ影響を受け、地形の変化も大きくブレイク位置がよく動きます。こまめな波チェックが効くタイプ。',
  facil:'駐車場：有り／トイレ：有り（寺沢海岸公衆トイレ）／シャワー：無し',
  food:'豊橋市街のカレーうどん・うなぎ',onsen:'豊橋・蒲郡方面の日帰り湯',q:'寺沢海岸 愛知県豊橋市寺沢町'},
-{id:'ikobe',cams:[{t:'yt',v:'O2g9Y26nKso',n:'伊古部（漁村コミュニティ施設）',by:'豊橋市'}],pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'伊古部',area:'豊橋市伊古部町',lat:34.6556,lng:137.39211,face:157.5,lv:'a',lvT:'中〜上級',
+{id:'ikobe',cams:[{t:'link',u:'https://www.youtube.com/watch?v=O2g9Y26nKso',n:'伊古部（漁村コミュニティ施設）',by:'豊橋市'}],pref:'aichi',grp:'愛知｜表浜（豊橋）',name:'伊古部',area:'豊橋市伊古部町',lat:34.6556,lng:137.39211,face:157.5,lv:'a',lvT:'中〜上級',
  dir:'南南東向き',swell:'東〜南西（ベストは南東）',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'ホローな良い波が立つポイント。サイズが上がるとパワーも増し、カレントが強く出るので初心者は注意。ローカル色がやや強くマナー重視で。',
  facil:'駐車場：無料有り／トイレ：有り／シャワー：無し',
@@ -325,14 +318,14 @@ const spots=[
  desc:'中田島の東隣、三軒屋海岸とも呼ばれる一帯。海岸近くまで車で入れる場所があり波チェックがしやすい。遊泳には向かず、サーフィンと釣りの利用が中心。',
  facil:'駐車場：有り／トイレ：無し／シャワー：無し',
  food:'浜松のうなぎ、南区の直売所',onsen:'舘山寺温泉',q:'五島海岸 静岡県浜松市中央区江之島町'},
-{id:'tenryu',cams:[{t:'img',u:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/img/PCK0073L.jpg',n:'天竜川河口',by:'国土交通省',iv:60,p:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/PCK0073.html'}],pref:'shizuoka',hama:1,grp:'静岡｜浜松（中田島周辺）',name:'天竜川河口',area:'浜松市中央区松島町',lat:34.64716,lng:137.78515,face:180,lv:'a',lvT:'中〜上級',
+{id:'tenryu',cams:[{t:'link',u:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/PCK0073.html',n:'天竜川河口',by:'国土交通省'}],pref:'shizuoka',hama:1,grp:'静岡｜浜松（中田島周辺）',name:'天竜川河口',area:'浜松市中央区松島町',lat:34.64716,lng:137.78515,face:180,lv:'a',lvT:'中〜上級',
  dir:'南向き',swell:'東〜西の幅広いウネリ',off:'北寄りの風',tide:'干潮〜上げ始め',bottom:'ビーチ（サンド）',
  desc:'河口が運ぶ砂でサンドバーが形成され、決まればシャープなブレイクに。トイレ等の設備が無いので事前準備を。増水後は流木と濁りに注意。',
  facil:'駐車場：有り／トイレ：無し／シャワー：無し',
  food:'浜松のうなぎ、遠州の農産直売所',onsen:'浜松市内の日帰り湯',q:'天竜川河口 サーフポイント 浜松市中央区松島町'},
 
 /* ========== 静岡・磐田/袋井 ========== */
-{id:'komaba',cams:[{t:'img',u:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/img/PCK0073L.jpg',n:'天竜川河口（竜洋の西）',by:'国土交通省',iv:60,p:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/PCK0073.html'}],pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'駒場（竜洋海岸）',area:'磐田市駒場',lat:34.6478,lng:137.8043,face:180,lv:'m',lvT:'中級',
+{id:'komaba',cams:[{t:'link',u:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/PCK0073.html',n:'天竜川河口（竜洋の西）',by:'国土交通省'}],pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'駒場（竜洋海岸）',area:'磐田市駒場',lat:34.6478,lng:137.8043,face:180,lv:'m',lvT:'中級',
  dir:'南向き',swell:'東〜西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'天竜川の東側。竜洋海洋公園・キャンプ場が隣接し、テニスコートや公衆浴場など周辺施設が充実しているので家族連れの遠征拠点にしやすい。駐車場は小さめ。',
  facil:'駐車場：5〜6台程度＋公園駐車場／トイレ：有り／シャワー：周辺施設に有り',
@@ -342,36 +335,36 @@ const spots=[
  desc:'砂丘がゆるやかで駐車場から水際までが近く、道具を運びやすいのが利点。第2駐車場もあり混雑時も停めやすい。堤防工事の状況で導線が変わることがあります。',
  facil:'駐車場：有り（第2駐車場あり）／トイレ：有り／シャワー：水道有り',
  food:'磐田市街の食堂、福田のしらす',onsen:'磐田・袋井の日帰り湯',q:'鮫島海岸 静岡県磐田市鮫島'},
-{id:'nishihama',cams:[{t:'ytc',c:'UCDGTtJ3Uoy-zs9hSV8ZBytw',n:'福田漁港（西浜）',by:'磐田市'}],pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'西浜（福田）',area:'磐田市福田',lat:34.6627,lng:137.8799,face:180,lv:'m',lvT:'中級',
+{id:'nishihama',cams:[{t:'link',u:'https://www.youtube.com/channel/UCDGTtJ3Uoy-zs9hSV8ZBytw/streams',n:'福田漁港（西浜）',by:'磐田市'}],pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'西浜（福田）',area:'磐田市福田',lat:34.6627,lng:137.8799,face:180,lv:'m',lvT:'中級',
  dir:'南向き',swell:'東〜西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'福田漁港の西側。漁港の人工物まわりで地形が決まりやすいエリア。堤防工事で浜への入り方が制限される時期があるので現地表示に従ってください。',
  facil:'駐車場：有り／トイレ：有り／シャワー：無し',
  food:'福田漁港のしらす、磐田のメロン',onsen:'袋井・磐田の日帰り湯',q:'福田海岸 静岡県磐田市福田'},
-{id:'toyohama',cams:[{t:'ytc',c:'UCklttRvu7xLyAIHfn1Rqreg',n:'同笠・浅羽海岸',by:'袋井市'}],pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'豊浜（浅羽海岸）',area:'袋井市湊',lat:34.6681,lng:137.9238,face:180,lv:'b',lvT:'初中級',
+{id:'toyohama',cams:[{t:'link',u:'https://www.youtube.com/channel/UCklttRvu7xLyAIHfn1Rqreg/streams',n:'同笠・浅羽海岸',by:'袋井市'}],pref:'shizuoka',hama:1,grp:'静岡｜磐田・袋井',name:'豊浜（浅羽海岸）',area:'袋井市湊',lat:34.6681,lng:137.9238,face:180,lv:'b',lvT:'初中級',
  dir:'南向き',swell:'東〜西のウネリ',off:'北寄りの風',tide:'半潮〜上げ潮',bottom:'ビーチ（サンド）',
  desc:'観光地化していない静かな浜で、2kmほど続く砂浜に人がまばら。混雑を避けて練習したいときに向きます。海岸まで車では入れず、なぎさの交流館の駐車場から歩き。',
  facil:'駐車場：なぎさの交流館ほか／トイレ：有り／シャワー：施設に有り',
  food:'袋井のクラウンメロン、福田のしらす',onsen:'袋井の日帰り湯',q:'浅羽海岸 静岡県袋井市湊'},
 
 /* ========== 静岡・御前崎/牧之原 ========== */
-{id:'omaezaki',cams:[{t:'ytc',c:'UCSgouYRapy1btrfHNrVGKFQ',n:'マリンパーク御前崎・御前崎港',by:'御前崎ケーブルテレビ'},{t:'link',u:'https://camera.mics.kaiho.mlit.go.jp/camstream/omaesaki_lt/',n:'御前埼灯台',by:'海上保安庁'}],pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'御前崎（メイン・メロン前・坂下）',area:'御前崎市御前崎〜白羽',lat:34.59746,lng:138.20566,face:180,lv:'m',lvT:'初中〜上級',
+{id:'omaezaki',cams:[{t:'link',u:'https://www.youtube.com/channel/UCSgouYRapy1btrfHNrVGKFQ/streams',n:'マリンパーク御前崎・御前崎港',by:'御前崎ケーブルテレビ'},{t:'link',u:'https://camera.mics.kaiho.mlit.go.jp/camstream/omaesaki_lt/',n:'御前埼灯台',by:'海上保安庁'}],pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'御前崎（メイン・メロン前・坂下）',area:'御前崎市御前崎〜白羽',lat:34.59746,lng:138.20566,face:180,lv:'m',lvT:'初中〜上級',
  dir:'南向き',swell:'東〜西の幅広いウネリ（ベストは南東）',off:'北寄りの風',tide:'ポイントにより異なる',bottom:'ビーチ（サンド）',
  desc:'遠州灘の東端。メイン、メロン前、坂下、尾高、ロングビーチなど複数のブレイクが並び、風とうねりの向きで使い分けられるのが最大の強み。ライブカメラも複数。',
  facil:'駐車場：無料有り／トイレ：有り／シャワー：マリンパーク御前崎に無料シャワー・更衣室',
  food:'なぶら市場のマグロ・カツオ、御前崎のしらす丼',onsen:'御前崎温泉、さがら子生れ温泉会館',q:'御前崎 サーフポイント マリンパーク御前崎'},
-{id:'sagara',cams:[{t:'img',u:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/img/PCK0001L.jpg',n:'菊川河口（相良の西）',by:'国土交通省',iv:60,p:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/PCK0001.html'}],pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'さがらサンビーチ',area:'牧之原市相良',lat:34.6826,lng:138.2041,face:180,lv:'b',lvT:'初級',
+{id:'sagara',cams:[{t:'link',u:'https://www.cbr.mlit.go.jp/hamamatsu/live_view_kasen/pc/PCK0001.html',n:'菊川河口（相良の西）',by:'国土交通省'}],pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'さがらサンビーチ',area:'牧之原市相良',lat:34.6826,lng:138.2041,face:180,lv:'b',lvT:'初級',
  dir:'南向き',swell:'南〜南東のウネリ',off:'北寄りの風',tide:'満ち込み',bottom:'ビーチ（サンド・遠浅）',
  desc:'遠浅で波が比較的穏やか。ファミリーや練習向きで、条件が合えば富士山を望めます。シャワー・トイレが整備され初めてのエリアでも使いやすい。',
  facil:'駐車場：有り（夏季有料 目安600円）／トイレ：有り／シャワー：有り',
  food:'相良の桜えび・しらす、牧之原の茶カフェ',onsen:'さがら子生れ温泉会館（源泉かけ流しの日帰り湯）',q:'さがらサンビーチ 静岡県牧之原市'},
-{id:'shizunami',cams:[{t:'ytc',c:'UCZrLGIbYG5EqmKMscbI43Zg',n:'静波（旧堤〜女神前）',by:'今日の静波Surfers'},{t:'link',u:'https://www.cbr.mlit.go.jp/shizukawa/bousai/livecamera/suruga/point/suruga-haibara.html',n:'静波ブロス前〜坂口谷川',by:'静岡河川事務所'}],pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'静波',area:'牧之原市静波',lat:34.7313,lng:138.2324,face:180,lv:'b',lvT:'初中級',
+{id:'shizunami',cams:[{t:'link',u:'https://www.youtube.com/channel/UCZrLGIbYG5EqmKMscbI43Zg/streams',n:'静波（旧堤〜女神前）',by:'今日の静波Surfers'},{t:'link',u:'https://www.cbr.mlit.go.jp/shizukawa/bousai/livecamera/suruga/point/suruga-haibara.html',n:'静波ブロス前〜坂口谷川',by:'静岡河川事務所'}],pref:'shizuoka',grp:'静岡｜御前崎・牧之原',name:'静波',area:'牧之原市静波',lat:34.7313,lng:138.2324,face:180,lv:'b',lvT:'初中級',
  dir:'南向き',swell:'南〜南東のウネリ',off:'北寄りの風',tide:'半潮〜満ち込み',bottom:'ビーチ（サンド）',
  desc:'県内屈指の人気ビーチで年間を通してサーファーが集まります。駐車場・トイレが充実。すぐ近くに大型ウェイブプール「静波サーフスタジアム PerfectSwell」があり、フラットな日の代替にも。',
  facil:'駐車場：無料有り（夏季は有料区分あり）／トイレ：有り／シャワー：有り',
  food:'吉田港のしらす、牧之原の深蒸し茶スイーツ',onsen:'さがら子生れ温泉会館',q:'静波海岸 静岡県牧之原市静波'},
 
 /* ========== 静岡・駿河/伊豆 ========== */
-{id:'tagonoura',cams:[{t:'img',u:'https://cam.river.go.jp/cam/now/cctv_220001_31C03962.jpg',n:'富士川河口',by:'国土交通省 川の防災情報',iv:60,p:'https://www.river.go.jp/kawabou/'}],pref:'shizuoka',grp:'静岡｜駿河・伊豆',name:'田子の浦',area:'富士市',lat:35.1433,lng:138.6956,face:180,lv:'m',lvT:'中級',
+{id:'tagonoura',cams:[{t:'link',u:'https://www.river.go.jp/kawabou/',n:'富士川河口',by:'国土交通省 川の防災情報'}],pref:'shizuoka',grp:'静岡｜駿河・伊豆',name:'田子の浦',area:'富士市',lat:35.1433,lng:138.6956,face:180,lv:'m',lvT:'中級',
  dir:'南向き（駿河湾）',swell:'南〜南東のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（急深）',
  desc:'条件が合えば正面に富士山を望みながら乗れるロケーション。湾内のため遠州灘よりうねりの反応は鈍め。急深なショアブレイクに注意。',
  facil:'駐車場：有り／トイレ：港湾施設周辺に有り／シャワー：無し',
@@ -539,7 +532,7 @@ const spots=[
  facil:'駐車場：有り（500〜1,000円）／トイレ：有り／シャワー：有り',
  food:'那珂湊おさかな市場の海鮮丼・寿司',onsen:'阿字ヶ浦温泉のぞみ',q:'阿字ヶ浦海水浴場 茨城県ひたちなか市'},
 
-{id:'oarai',cams:[{t:'img',u:'https://cam.river.go.jp/cam/now/cctv_080004_31C03576.jpg',n:'那珂川河口（水族館前）',by:'国土交通省 川の防災情報',iv:60,p:'https://www.river.go.jp/kawabou/'}],pref:'ibaraki',grp:'茨城｜大洗・大貫',name:'大洗（水族館前）',area:'東茨城郡大洗町磯浜町',lat:36.3336,lng:140.5940,face:90,lv:'a',lvT:'中〜上級',
+{id:'oarai',cams:[{t:'link',u:'https://www.river.go.jp/kawabou/',n:'那珂川河口（水族館前）',by:'国土交通省 川の防災情報'}],pref:'ibaraki',grp:'茨城｜大洗・大貫',name:'大洗（水族館前）',area:'東茨城郡大洗町磯浜町',lat:36.3336,lng:140.5940,face:90,lv:'a',lvT:'中〜上級',
  dir:'東向き',swell:'北東〜東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ＋岩・人工物',
  desc:'茨城の天敵である北東風や強い北うねりを軽減してくれる貴重なポイント。小さい日でも波が割れる反面、限られたピークの取り合いになりやすく、コンディションが良い日は混雑とトラブルが起きがち。初心者向きではありません。カーナビはアクアワールド大洗にセットを（大洗サンビーチとは別）。',
  facil:'駐車場：水族館周辺の駐車場／トイレ：有り／シャワー：無し',
@@ -561,7 +554,7 @@ const spots=[
  desc:'大貫と大竹の間を埋めるポイント。国道51号の大きな看板が目印で、意外とアクセスしやすい割に空いていることが多い。テトラ脇で地形が決まりやすい一方、専用駐車場はサーファー会員制で一般は路肩に停めることになるため、駐車マナーに特に配慮が必要です。',
  facil:'駐車場：会員制サーファー用駐車場のみ（一般は路肩）／トイレ：無し／シャワー：無し',
  food:'鉾田のメロン、大洗の海鮮',onsen:'大洗ゆっくら健康館、とっぷさんて大洋',q:'玉田海岸 玉田サンビーチ 茨城県鉾田市玉田'},
-{id:'otake',cams:[{t:'ytc',c:'UC77Eqb-7TzAj5HweU_pBSlw',n:'大竹海岸',by:'Wave Garage'}],pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'大竹海岸',area:'鉾田市大竹',lat:36.1601,lng:140.5780,face:90,lv:'m',lvT:'初中級',
+{id:'otake',cams:[{t:'link',u:'https://www.youtube.com/channel/UC77Eqb-7TzAj5HweU_pBSlw/streams',n:'大竹海岸',by:'Wave Garage'}],pref:'ibaraki',grp:'茨城｜鉾田・鹿嶋',name:'大竹海岸',area:'鉾田市大竹',lat:36.1601,lng:140.5780,face:90,lv:'m',lvT:'初中級',
  dir:'東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'鹿島灘海浜公園に隣接する広いビーチ。駐車場が非常に大きく（数百台規模）、無料で使えるのが最大の利点。人が分散しやすく混雑を避けたい日に向きます。',
  facil:'駐車場：無料・大規模／トイレ：有り／シャワー：夏季有り',
@@ -616,7 +609,7 @@ const spots=[
  desc:'波崎の北側、人の少ない静かな浜。江戸期の「うつろ舟」漂着伝説の地としても知られます。設備がほぼ無いので準備を整えてから。',
  facil:'駐車場：少数／トイレ：無し／シャワー：無し',
  food:'波崎漁港の海鮮、銚子のイワシ・マグロ',onsen:'銚子方面の日帰り湯',q:'舎利浜 茨城県神栖市波崎'},
-{id:'hasaki',cams:[{t:'ytc',c:'UCwnL1oawHTCb7xZw0GzNnmw',n:'波崎（海洋研究施設）',by:'港湾空港技術研究所'}],pref:'ibaraki',grp:'茨城｜神栖・波崎',name:'波崎海岸',area:'神栖市波崎',lat:35.7531,lng:140.8323,face:112.5,lv:'b',lvT:'初中級',
+{id:'hasaki',cams:[{t:'link',u:'https://www.youtube.com/channel/UCwnL1oawHTCb7xZw0GzNnmw/streams',n:'波崎（海洋研究施設）',by:'港湾空港技術研究所'}],pref:'ibaraki',grp:'茨城｜神栖・波崎',name:'波崎海岸',area:'神栖市波崎',lat:35.7531,lng:140.8323,face:112.5,lv:'b',lvT:'初中級',
  dir:'東〜南東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'茨城最南端エリア。斜面がきつくなく波のサイズも出るバランスの良いビーチで、平井が大きすぎる日の移動先の定番。駐車場・更衣室・シャワーが揃い、南端にビジターセンターもあります。',
  facil:'駐車場：有り／トイレ：有り／シャワー：有り（水勢良好）',
@@ -663,7 +656,7 @@ const spots=[
  desc:'駐車場・トイレ・シャワーが揃い、コンビニや飲食店も近い便利なビーチ。波は特別良いわけではないぶん空いており、のんびり乗りたい日に。駐車場から水際までやや歩きます。',
  facil:'駐車場：有り／トイレ：有り／シャワー：有り',
  food:'九十九里のハマグリ焼き、海の駅の海鮮',onsen:'九十九里町周辺の日帰り湯',q:'不動堂海水浴場 千葉県九十九里町'},
-{id:'shirako',cams:[{t:'yt',v:'47xoP12hJxs',n:'一松海岸',by:'千葉県長生村'}],pref:'chibaN',grp:'千葉北｜九十九里',name:'白子',area:'長生郡白子町古所',lat:35.4483,lng:140.4043,face:112,lv:'b',lvT:'初中級',
+{id:'shirako',cams:[{t:'link',u:'https://www.youtube.com/watch?v=47xoP12hJxs',n:'一松海岸',by:'千葉県長生村'}],pref:'chibaN',grp:'千葉北｜九十九里',name:'白子',area:'長生郡白子町古所',lat:35.4483,lng:140.4043,face:112,lv:'b',lvT:'初中級',
  dir:'東南東向き',swell:'北東〜南東のウネリ',off:'西寄りの風',tide:'半潮〜上げ潮',bottom:'ビーチ（サンド）',
  desc:'九十九里南部。ウミガメの産卵地として浜がよく整備されています。一宮ほどパワーは無いぶん空いており、テニス合宿の町としてホテルも多く宿泊拠点にしやすい。',
  facil:'駐車場：有り／トイレ：有り／シャワー：夏季有り',
@@ -693,7 +686,7 @@ const spots=[
  desc:'2020年東京五輪のサーフィン会場となった釣ヶ崎海岸。通称「波乗り道場」と呼ばれ、トップランカーによるハイレベルなセッションが日常的に繰り広げられます。海底は砂なので物理的には初級者も入れますが、上級者のライディングの妨げになるため、初めのうちは陸から見学して体の使い方を学ぶのが賢明です。',
  facil:'駐車場：有り（五輪で整備）／トイレ：有り／シャワー：有り／サーフショップ近く',
  food:'一宮の伊勢えび、釣ヶ崎周辺のカフェ',onsen:'一宮・白子の温泉宿',q:'釣ヶ崎海岸 志田下 千葉県一宮町東浪見'},
-{id:'taito',cams:[{t:'ytc',c:'UCKP-Q8DRYQ7Pl6jRirZasBA',n:'太東',by:'アーゴプロジェクト'}],pref:'chibaS',grp:'千葉南｜一宮・東浪見',name:'太東',area:'長生郡一宮町東浪見',lat:35.33094,lng:140.39909,face:67,lv:'m',lvT:'初級〜上級',
+{id:'taito',cams:[{t:'link',u:'https://www.youtube.com/channel/UCKP-Q8DRYQ7Pl6jRirZasBA/streams',n:'太東',by:'アーゴプロジェクト'}],pref:'chibaS',grp:'千葉南｜一宮・東浪見',name:'太東',area:'長生郡一宮町東浪見',lat:35.33094,lng:140.39909,face:67,lv:'m',lvT:'初級〜上級',
  dir:'東北東向き',swell:'南東〜北北東のウネリ（ベストは東北東）',off:'西南西寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'九十九里の南端。南〜東の風を少しかわすため、周囲がオンショアでジャンクな日でも面がきれいに整いやすいのが最大の武器。防波堤の左右で波がまとまります。堤防付近は7月上旬〜8月末の8時半〜16時がサーフィン禁止。ライブカメラあり。',
  facil:'駐車場：有り／トイレ：有り／シャワー：有り／サーフショップ近く',
@@ -703,7 +696,7 @@ const spots=[
  desc:'「月の沙漠」で知られる白砂のビーチ。湾状の地形で波が落ち着きやすく、外房の中では初心者も入りやすいエリア。夏は海水浴場として賑わいます。',
  facil:'駐車場：有り／トイレ：有り／シャワー：有り',
  food:'御宿の伊勢えび、勝浦のタンタンメン',onsen:'御宿・勝浦の日帰り湯',q:'御宿中央海水浴場 千葉県御宿町'},
-{id:'hebara',cams:[{t:'ytc',c:'UCUvFTwKs1hFuF1heSDzFfaQ',n:'部原（クソ下〜メイン）',by:'wowpowcom'}],pref:'chibaS',grp:'千葉南｜御宿・勝浦',name:'部原',area:'勝浦市部原',lat:35.1681,lng:140.3366,face:135,lv:'a',lvT:'中〜上級',
+{id:'hebara',cams:[{t:'link',u:'https://www.youtube.com/channel/UCUvFTwKs1hFuF1heSDzFfaQ/streams',n:'部原（クソ下〜メイン）',by:'wowpowcom'}],pref:'chibaS',grp:'千葉南｜御宿・勝浦',name:'部原',area:'勝浦市部原',lat:35.1681,lng:140.3366,face:135,lv:'a',lvT:'中〜上級',
  dir:'南東向き',swell:'東〜南のウネリ',off:'北西寄りの風',tide:'半潮前後',bottom:'ビーチ＋リーフ',
  desc:'外房を代表する実力派ポイント。ビッグスウェル時にはインサイドのリーフが機能し、質の高い波が立ちます。駐車場・トイレ・シャワーが無料で使えるのも魅力ですがローカル多め。',
  facil:'駐車場：無料有り／トイレ：有り／シャワー：有り',
@@ -713,17 +706,17 @@ const spots=[
  desc:'日本の渚百選に選ばれた透明度の高い湾。岩礁に守られて波が小さくまとまりやすく、外房がハードな日の避難先。夏は海水浴客が多いので時間帯に注意。',
  facil:'駐車場：有り（夏季有料）／トイレ：有り／シャワー：有料',
  food:'勝浦タンタンメン、勝浦朝市',onsen:'勝浦・鴨川の日帰り湯',q:'守谷海水浴場 千葉県勝浦市'},
-{id:'maruki',cams:[{t:'ytc',c:'UCEDn0tLxpVqEvI3NJyE2DRA',n:'前原海水浴場（シーサイド）',by:'波のスケッチ'}],pref:'chibaS',grp:'千葉南｜鴨川・南房総',name:'マルキ（前原）',area:'鴨川市前原',lat:35.1023,lng:140.1056,face:157,lv:'m',lvT:'中級',
+{id:'maruki',cams:[{t:'link',u:'https://www.youtube.com/channel/UCEDn0tLxpVqEvI3NJyE2DRA/streams',n:'前原海水浴場（シーサイド）',by:'波のスケッチ'}],pref:'chibaS',grp:'千葉南｜鴨川・南房総',name:'マルキ（前原）',area:'鴨川市前原',lat:35.1023,lng:140.1056,face:157,lv:'m',lvT:'中級',
  dir:'南南東向き',swell:'南東〜南のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'鴨川の前原・横渚海岸。外房が北うねりで荒れている時に、南向きのこちらが機能することがあります。駅や市街地が近く、雨の日の代替プランも立てやすい立地。',
  facil:'駐車場：有り／トイレ：有り／シャワー：有り',
  food:'鴨川の地魚、おらが丼',onsen:'鴨川の日帰り温泉',q:'前原横渚海岸 千葉県鴨川市'},
-{id:'wada',cams:[{t:'ytc',c:'UC0Cip1OyEnzqdL6nn6b3VaA',n:'和田・原岡・岩井',by:'南房総いいとこどりライブカメラ'}],pref:'chibaS',grp:'千葉南｜鴨川・南房総',name:'和田浦',area:'南房総市和田町',lat:35.0426,lng:140.0207,face:157,lv:'m',lvT:'中級',
+{id:'wada',cams:[{t:'link',u:'https://www.youtube.com/channel/UC0Cip1OyEnzqdL6nn6b3VaA/streams',n:'和田・原岡・岩井',by:'南房総いいとこどりライブカメラ'}],pref:'chibaS',grp:'千葉南｜鴨川・南房総',name:'和田浦',area:'南房総市和田町',lat:35.0426,lng:140.0207,face:157,lv:'m',lvT:'中級',
  dir:'南南東向き',swell:'南東〜南のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'道の駅和田浦WA・O！が目印。南向きで台風うねりに敏感な一方、普段はサイズが出にくいエリア。人が少なくのんびり入れます。',
  facil:'駐車場：道の駅ほか／トイレ：有り／シャワー：無し',
  food:'和田浦のクジラ料理、南房総の地魚',onsen:'南房総の日帰り湯',q:'和田浦海岸 千葉県南房総市和田町'},
-{id:'chikura',cams:[{t:'yt',v:'q1Nxn99NwJ4',n:'道の駅ちくら潮風王国',by:'南房総市'}],pref:'chibaS',grp:'千葉南｜鴨川・南房総',name:'千倉',area:'南房総市千倉町',lat:34.9631,lng:139.9609,face:135,lv:'b',lvT:'初中級',
+{id:'chikura',cams:[{t:'link',u:'https://www.youtube.com/watch?v=q1Nxn99NwJ4',n:'道の駅ちくら潮風王国',by:'南房総市'}],pref:'chibaS',grp:'千葉南｜鴨川・南房総',name:'千倉',area:'南房総市千倉町',lat:34.9631,lng:139.9609,face:135,lv:'b',lvT:'初中級',
  dir:'南東向き',swell:'東〜南のウネリ',off:'北西寄りの風',tide:'半潮〜上げ潮',bottom:'ビーチ（サンド）',
  desc:'房総半島の南東端。無料駐車場とトイレがあり、混雑も少なめで気楽に入れます。黒潮の影響で冬でも水温が高めなのが房総南部の利点。',
  facil:'駐車場：無料有り／トイレ：有り／シャワー：有料',
@@ -733,7 +726,7 @@ const spots=[
  desc:'房総で唯一まとまった南西向きの浜。他エリアが反応しない南西うねりを拾い、約5km続く砂浜にピークが点在します。遊泳禁止になるほどカレントが強いので入水位置の見極めを。',
  facil:'駐車場：有料有り／トイレ：有り／シャワー：無し',
  food:'館山の地魚、房総フラワーラインのカフェ',onsen:'館山・白浜の日帰り湯',q:'平砂浦海岸 千葉県館山市'},
-{id:'kugenuma',cams:[{t:'ytc',c:'UCV3arNLjYmBubfETmAAzS4w',n:'新江ノ島水族館前〜銅像前',by:'NAMIARUMOVIE'}],pref:'shonan',grp:'湘南｜藤沢・鎌倉',name:'鵠沼',area:'藤沢市鵠沼海岸',lat:35.314,lng:139.4682,face:180,lv:'m',lvT:'初中〜上級',
+{id:'kugenuma',cams:[{t:'link',u:'https://www.youtube.com/channel/UCV3arNLjYmBubfETmAAzS4w/streams',n:'新江ノ島水族館前〜銅像前',by:'NAMIARUMOVIE'}],pref:'shonan',grp:'湘南｜藤沢・鎌倉',name:'鵠沼',area:'藤沢市鵠沼海岸',lat:35.314,lng:139.4682,face:180,lv:'m',lvT:'初中〜上級',
  dir:'南向き（相模湾）',swell:'南〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（サンド）',
  desc:'日本のサーフィン発祥の地とされる湘南の中心。引地川河口の地形で波が決まりやすく、小波でも成立します。ただし日本屈指の混雑ポイントで、ピークの譲り合いは必須。',
  facil:'駐車場：有料（周辺に多数）／トイレ：有り／シャワー：有り',
@@ -758,17 +751,17 @@ const spots=[
  desc:'かつてコンクリート工場があったことに由来する通称。相模川を渡って最初に出会う西湘寄りのポイントで、鵠沼などより空いています。玉石が入るので足元に注意。',
  facil:'駐車場：周辺の有料／トイレ：公園に有り／シャワー：無し',
  food:'平塚の海鮮、湘南のベーカリー',onsen:'平塚・大磯の日帰り湯',q:'平塚海岸 龍城ケ丘 神奈川県平塚市'},
-{id:'shichirigahama',cams:[{t:'yt',v:'zAQNfzTa_tw',n:'七里ヶ浜ビュー（The NOON studio）',by:'Japan Live Camera'}],pref:'shonan',grp:'湘南｜鎌倉',name:'七里ヶ浜',area:'鎌倉市七里ガ浜東',lat:35.3044,lng:139.5139,face:180,lv:'m',lvT:'中級',
+{id:'shichirigahama',cams:[{t:'link',u:'https://www.youtube.com/watch?v=zAQNfzTa_tw',n:'七里ヶ浜ビュー（The NOON studio）',by:'Japan Live Camera'}],pref:'shonan',grp:'湘南｜鎌倉',name:'七里ヶ浜',area:'鎌倉市七里ガ浜東',lat:35.3044,lng:139.5139,face:180,lv:'m',lvT:'中級',
  dir:'南向き（相模湾）',swell:'南〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ＋岩（リーフまじり）',
  desc:'江の島と富士山を望む湘南屈指のロケーション。岩がらみのブレイクで、小波の日でもロングボードが楽しめます。国道134号沿いで波チェックが容易。',
  facil:'駐車場：有料有り／トイレ：有り／シャワー：一部有り',
  food:'七里ヶ浜のパンケーキ・カフェ、鎌倉の食事処',onsen:'稲村ヶ崎温泉、鎌倉の日帰り湯',q:'七里ヶ浜 神奈川県鎌倉市'},
-{id:'yuigahama',cams:[{t:'yt',v:'hxKBnoLH0uk',n:'材木座海岸',by:'Flying Suika'}],pref:'shonan',grp:'湘南｜鎌倉',name:'由比ヶ浜',area:'鎌倉市由比ガ浜',lat:35.3093,lng:139.5422,face:180,lv:'b',lvT:'初級',
+{id:'yuigahama',cams:[{t:'link',u:'https://www.youtube.com/watch?v=hxKBnoLH0uk',n:'材木座海岸',by:'Flying Suika'}],pref:'shonan',grp:'湘南｜鎌倉',name:'由比ヶ浜',area:'鎌倉市由比ガ浜',lat:35.3093,lng:139.5422,face:180,lv:'b',lvT:'初級',
  dir:'南向き（相模湾）',swell:'南〜南西のウネリ',off:'北寄りの風',tide:'満ち込み',bottom:'ビーチ（サンド）',
  desc:'鎌倉駅から歩ける遠浅ビーチ。波はおとなしくロングボードや練習向き。夏は海水浴場になりサーフィンの時間帯制限があるので、事前に確認を。',
  facil:'駐車場：有料有り／トイレ：有り／シャワー：有り',
  food:'鎌倉のしらす丼、小町通りの食べ歩き',onsen:'稲村ヶ崎温泉',q:'由比ヶ浜海岸 神奈川県鎌倉市'},
-{id:'oiso',cams:[{t:'yt',v:'WV9DtVXgwqE',n:'大磯海岸',by:'神奈川県'}],pref:'seisho',grp:'西湘｜大磯・二宮',name:'大磯',area:'中郡大磯町',lat:35.3086,lng:139.3191,face:180,lv:'m',lvT:'中級',
+{id:'oiso',cams:[{t:'link',u:'https://www.youtube.com/watch?v=WV9DtVXgwqE',n:'大磯海岸',by:'神奈川県'}],pref:'seisho',grp:'西湘｜大磯・二宮',name:'大磯',area:'中郡大磯町',lat:35.3086,lng:139.3191,face:180,lv:'m',lvT:'中級',
  dir:'南向き（相模湾）',swell:'南〜南西のウネリ',off:'北寄りの風',tide:'半潮前後',bottom:'ビーチ（玉石・急深）',
  desc:'西湘の入口。玉石のボトムで急深、ショアブレイクが強いのが西湘らしい特徴です。うねりの反応は湘南より良く、サイズも出やすい。西湘バイパスから波チェックできます。',
  facil:'駐車場：有り／トイレ：有り／シャワー：夏季有り',
@@ -848,7 +841,6 @@ function match(s,f){
   return s.pref===f;
 }
 function render(f){
-  Object.keys(camTimers).forEach(k=>{clearInterval(camTimers[k]);delete camTimers[k];});
   listEl.innerHTML='';
   const arr=spots.filter(s=>match(s,f));
   lbl.textContent='スポット一覧（'+arr.length+'件）';
@@ -868,7 +860,7 @@ function render(f){
           <div class="card-title">${s.name}</div>
         </div>
         <div style="display:flex;align-items:center;gap:7px">
-          ${(s.cams&&s.cams.length)?'<span class="camtag">\u{1F4F7} 映像</span>':''}
+          ${(s.cams&&s.cams.length)?'<span class="camtag">\u{1F4F7} カメラ</span>':''}
           <span class="lv ${lvCls[s.lv]}">${s.lvT}</span>
           <svg class="chev" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
@@ -896,12 +888,8 @@ function render(f){
     c.querySelector('.card-head').addEventListener('click',()=>{
       c.classList.toggle('open');
       if(c.classList.contains('open'))loadForecast(s);
-      else stopCam(s.id);
     });
-    c.querySelectorAll('[data-cam]').forEach(b=>b.addEventListener('click',ev=>{
-      ev.stopPropagation();
-      openCam(s,parseInt(b.getAttribute('data-ci'),10));
-    }));
+    c.querySelectorAll('.cam-btn').forEach(b=>b.addEventListener('click',ev=>ev.stopPropagation()));
     listEl.appendChild(c);
   });
 }
@@ -911,68 +899,18 @@ function render(f){
    yt =YouTubeライブ（動画ID） / ytc=YouTubeチャンネルの現在のライブ
    img=公的機関の定点画像（自動で取り直し） / link=外部ページを開く
    ============================================================ */
-const camTimers={};
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function camHTML(s){
   if(!s.cams||!s.cams.length)return '';
-  const btns=s.cams.map((c,i)=>{
-    if(c.t==='link')
-      return '<a class="cam-btn ext" href="'+esc(c.u)+'" target="_blank" rel="noopener">'+esc(c.n)+' ↗</a>';
-    return '<button class="cam-btn" type="button" data-cam="'+s.id+'" data-ci="'+i+'">▶ '+esc(c.n)+'</button>';
-  }).join('');
+  const btns=s.cams.map(c=>
+    '<a class="cam-btn" href="'+esc(c.u)+'" target="_blank" rel="noopener">'+esc(c.n)
+    +'<span class="by">'+esc(c.by)+'</span><span class="ex">\u2197</span></a>').join('');
   return '<div class="cams">'
     +'<div class="cams-head"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7.5A1.5 1.5 0 014.5 6h9A1.5 1.5 0 0115 7.5v9A1.5 1.5 0 0113.5 18h-9A1.5 1.5 0 013 16.5v-9z" stroke="currentColor" stroke-width="2"/><path d="M15 11l5-3v8l-5-3v-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>'
     +'<span class="t">ライブカメラで波を見る</span></div>'
     +'<div class="cam-btns">'+btns+'</div>'
-    +'<div class="cam-stage" id="cam-'+s.id+'"></div>'
-    +'<div class="cam-note">各機関・配信者が無料で公開しているカメラです（公式の配信ページ／YouTubeプレーヤーを表示しています）。配信の停止・中断や画角の変更があります。</div>'
+    +'<div class="cam-note">各機関・配信者が無料で公開しているカメラの公式ページへのリンクです（別のタブで開きます）。配信の停止・中断や画角の変更があります。</div>'
     +'</div>';
-}
-function stopCam(id){
-  if(camTimers[id]){clearInterval(camTimers[id]);delete camTimers[id];}
-  const st=document.getElementById('cam-'+id);
-  if(st)st.innerHTML='';
-  const card=document.getElementById('c-'+id);
-  if(card)card.querySelectorAll('.cam-btn.on').forEach(b=>b.classList.remove('on'));
-}
-function openCam(s,i){
-  const c=s.cams&&s.cams[i], st=document.getElementById('cam-'+s.id);
-  if(!c||!st)return;
-  const already=st.getAttribute('data-ci')===String(i)&&st.innerHTML!=='';
-  stopCam(s.id);
-  if(already){st.removeAttribute('data-ci');return;}
-  st.setAttribute('data-ci',String(i));
-  const card=document.getElementById('c-'+s.id);
-  const btn=card&&card.querySelector('[data-cam="'+s.id+'"][data-ci="'+i+'"]');
-  if(btn)btn.classList.add('on');
-
-  if(c.t==='yt'||c.t==='ytc'){
-    const src=c.t==='yt'
-      ? 'https://www.youtube.com/embed/'+c.v+'?autoplay=1&mute=1&playsinline=1&rel=0'
-      : 'https://www.youtube.com/embed/live_stream?channel='+c.c+'&autoplay=1&mute=1&playsinline=1&rel=0';
-    const open=c.t==='yt'
-      ? 'https://www.youtube.com/watch?v='+c.v
-      : 'https://www.youtube.com/channel/'+c.c+'/streams';
-    st.innerHTML='<div class="cam-frame"><iframe src="'+src+'" title="'+esc(c.n)+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>'
-      +'<div class="cam-meta">'+esc(c.n)+'｜提供：'+esc(c.by)+' <a href="'+open+'" target="_blank" rel="noopener">YouTubeで開く ↗</a><br>映像が出ないときは配信が止まっています。</div>';
-    return;
-  }
-  if(c.t==='img'){
-    const iv=c.iv||60;
-    st.innerHTML='<div class="cam-frame"><img id="ci-'+s.id+'" alt="'+esc(c.n)+'"></div>'
-      +'<div class="cam-meta">'+esc(c.n)+'｜提供：'+esc(c.by)+'（約'+iv+'秒ごとに取り直し）'
-      +(c.p?' <a href="'+c.p+'" target="_blank" rel="noopener">公式ページ ↗</a>':'')+'</div>';
-    const img=document.getElementById('ci-'+s.id);
-    img.onerror=()=>{
-      stopCam(s.id);
-      const st2=document.getElementById('cam-'+s.id);
-      if(st2)st2.innerHTML='<div class="cam-fail">画像を取得できませんでした。'
-        +(c.p?'<br><a href="'+c.p+'" target="_blank" rel="noopener" style="color:var(--teal);font-weight:700">公式ページで見る ↗</a>':'')+'</div>';
-    };
-    const tick=()=>{img.src=c.u+(c.u.indexOf('?')>=0?'&':'?')+'_='+Date.now();};
-    tick();
-    camTimers[s.id]=setInterval(tick,iv*1000);
-  }
 }
 
 const map=L.map('map',{scrollWheelZoom:false});
@@ -1105,7 +1043,7 @@ function tideSVG(times,levels){
       const high=b>=a&&b>=c;
       const hh=times[idx[k]].slice(11,16);
       marks+='<circle cx="'+x(k).toFixed(1)+'" cy="'+y(b).toFixed(1)+'" r="2.6" fill="'+(high?'#FF6B4A':'#2FA5A9')+'"/>'
-        +'<text x="'+x(k).toFixed(1)+'" y="'+(y(b)+(high?-6:12)).toFixed(1)+'" fill="#C4D3D8" font-size="8.5" text-anchor="middle">'
+        +'<text x="'+x(k).toFixed(1)+'" y="'+(y(b)+(high?-6:12)).toFixed(1)+'" fill="#15262B" font-weight="700" font-size="8.5" text-anchor="middle">'
         +(high?'満 ':'干 ')+hh+'</text>';
     }
   }
@@ -1115,13 +1053,13 @@ function tideSVG(times,levels){
   let nowLine='';
   if(ni>=0){
     nowLine='<line x1="'+x(ni).toFixed(1)+'" y1="'+PT+'" x2="'+x(ni).toFixed(1)+'" y2="'+(H-PB)
-      +'" stroke="#F6F1E5" stroke-width="1.2" stroke-dasharray="3 2" opacity=".75"/>';
+      +'" stroke="#54666C" stroke-width="1.2" stroke-dasharray="3 2" opacity=".9"/>';
   }
 
   let ticks='';
   [0,6,12,18,24].forEach(h=>{
     const k=Math.min(idx.length-1,h);
-    ticks+='<text x="'+x(k).toFixed(1)+'" y="'+(H-4)+'" fill="#7D949B" font-size="8.5" text-anchor="'
+    ticks+='<text x="'+x(k).toFixed(1)+'" y="'+(H-4)+'" fill="#54666C" font-weight="700" font-size="8.5" text-anchor="'
       +(h===0?'start':h===24?'end':'middle')+'">'+h+'時</text>';
   });
 
@@ -1187,7 +1125,7 @@ function renderForecast(s,marine,wind){
     +(days?'<div class="fc-days">'+days+'</div>':'')
     +'<div class="tide-wrap"><div class="l"><span>今日の潮位</span><span>満潮 / 干潮</span></div>'
       +tideSVG(mh.time,mh.sea_level_height_msl||[])+'</div>'
-    +'<div class="fc-note">数値は沖合の予測値です。実際に岸で割れる波の高さはこれより小さくなることが多く、地形やカレントも反映されません。入水前に必ず現地の波を目で確認してください。</div>'
+    +'<div class="fc-note"><b>波情報は参考値です。入水の判断はご自身の責任でお願いします。</b><br>数値は沖合の予測値で、実際に岸で割れる波の高さはこれより小さくなることが多く、地形やカレントも反映されません。入水前に必ず現地の波を目で確認してください。</div>'
     +'<div style="text-align:right"><button class="fc-btn" data-reload="'+s.id+'">再取得</button></div>';
 
   el.querySelector('[data-reload]').addEventListener('click',ev=>{
