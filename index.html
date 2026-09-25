@@ -103,11 +103,14 @@
   .wind-sideon,.fc-cell .v.wind-sideon{color:#9A5A00}
   .wind-on,.fc-cell .v.wind-on{color:#B93F27}
   .wind-side,.fc-cell .v.wind-side{color:#9A5A00}
-  .sp0,.fc-tbl .sub.sp0{color:#54666C}
-  .sp1,.fc-tbl .sub.sp1{color:#15262B}
-  .sp2,.fc-tbl .sub.sp2{color:#9A5A00;font-weight:700}
-  .sp3,.fc-tbl .sub.sp3{color:#B93F27;font-weight:700}
-  .sp4,.fc-tbl .sub.sp4{color:#8B2415;font-weight:900}
+  .sp0,.fc-tbl .spd.sp0{color:#1F6FA8}
+  .sp1,.fc-tbl .spd.sp1{color:#0F7A57}
+  .sp2,.fc-tbl .spd.sp2{color:#9A5A00}
+  .sp3,.fc-tbl .spd.sp3{color:#B93F27}
+  .sp4,.fc-tbl .spd.sp4{color:#8B2415}
+  .fc-tbl .spd{display:block;font-size:10.5px;font-weight:900;line-height:1.4;font-family:'Zen Kaku Gothic New',sans-serif}
+  .fc-tbl .spd .gst{font-size:9px;font-weight:500;color:var(--ink-soft)}
+  .fc-cell .s .spd{font-weight:900}
   .wx{width:21px;height:21px;display:block;margin:0 auto}
   .fc-legend{display:flex;flex-wrap:wrap;gap:3px 10px;padding:6px 5px 2px;font-size:9.5px;font-weight:700}
   .fc-legend span::before{content:'●';margin-right:2px}
@@ -1279,18 +1282,18 @@ function windType(windFromDeg,faceDeg){
 }
 function spdCls(v){
   if(v==null)return '';
-  if(v<3)return 'sp0';
-  if(v<6)return 'sp1';
-  if(v<9)return 'sp2';
-  if(v<12)return 'sp3';
+  if(v<2)return 'sp0';
+  if(v<4)return 'sp1';
+  if(v<6)return 'sp2';
+  if(v<8)return 'sp3';
   return 'sp4';
 }
 function windStrength(v){
   if(v==null)return '';
-  if(v<2)return '弱';
-  if(v<5)return 'やや弱';
-  if(v<8)return 'やや強';
-  if(v<12)return '強';
+  if(v<2)return 'ほぼ無風';
+  if(v<4)return '弱い';
+  if(v<6)return 'やや強い';
+  if(v<8)return '強い';
   return '非常に強い';
 }
 
@@ -1493,7 +1496,8 @@ function hourlyTable(s,marine,wind,day){
         +(pr!=null&&pr>0?'<span class="sub rain">'+pr.toFixed(1)+'mm</span>':'')+'</td>'
       +'<td>'+(tp!=null?tp.toFixed(0)+'°':'—')+'</td>'
       +'<td><span class="'+wt.cls+'" title="'+wt.t+'">'+(wd!=null?dir16(wd):'—')+'</span>'
-        +'<span class="sub '+spdCls(ws)+'">'+(ws!=null?ws.toFixed(1)+'m/s':'—')+(wg!=null?' 瞬間'+wg.toFixed(0):'')+'</span></td>'
+        +'<span class="spd '+spdCls(ws)+'">'+(ws!=null?ws.toFixed(1):'—')
+        +'<span class="gst">m/s'+(wg!=null?' 瞬間'+wg.toFixed(0):'')+'</span></span></td>'
       +'<td>'+(wv!=null?wv.toFixed(1)+'m':'—')
         +'<span class="sub">'+(wdir!=null?dir16(wdir):'—')+(wp!=null?' '+Math.round(wp)+'秒':'')+'</span></td>'
       +'<td>'+(sl!=null?(sl>=0?'+':'')+Math.round(sl*100):'—')+'</td>'
@@ -1506,8 +1510,8 @@ function hourlyTable(s,marine,wind,day){
     +'<tbody>'+rows.join('')+'</tbody></table>'
     +'<div class="fc-legend"><i>風向</i><span class="wind-off">オフショア</span><span class="wind-sideoff">サイドオフ</span>'
     +'<span class="wind-sideon">サイドオン</span><span class="wind-on">オンショア</span></div>'
-    +'<div class="fc-legend"><i>風速</i><span class="sp0">〜3</span><span class="sp1">3〜6</span><span class="sp2">6〜9</span>'
-    +'<span class="sp3">9〜12</span><span class="sp4">12m/s〜</span></div></div>';
+    +'<div class="fc-legend"><i>風速</i><span class="sp0">〜2</span><span class="sp1">2〜4</span><span class="sp2">4〜6</span>'
+    +'<span class="sp3">6〜8</span><span class="sp4">8m/s〜</span></div></div>';
 }
 
 function renderForecast(s,marine,wind){
@@ -1570,7 +1574,7 @@ function renderForecast(s,marine,wind){
         +'<div class="s">周期'+(wp!=null?Math.round(wp)+'秒':'—')+' / '+(wd!=null?dir16(wd)+'から':'—')+'</div></div>'
       +'<div class="fc-cell"><div class="l">風</div>'
         +'<div class="v '+wt.cls+'">'+wt.t+'</div>'
-        +'<div class="s">'+(wdir!=null?dir16(wdir):'—')+' <span class="'+spdCls(ws)+'">'+(ws!=null?ws.toFixed(1)+'m/s':'—')+'</span>'
+        +'<div class="s">'+(wdir!=null?dir16(wdir):'—')+' <span class="spd '+spdCls(ws)+'">'+(ws!=null?ws.toFixed(1)+'m/s':'—')+'</span>'
         +(ws!=null?'（'+windStrength(ws)+'）':'')+(wg!=null?' 瞬間'+wg.toFixed(0)+'m/s':'')+'</div></div>'
       +'<div class="fc-cell"><div class="l">うねり</div>'
         +'<div class="v">'+(sw!=null?sw.toFixed(1)+'m':'—')+'</div>'
