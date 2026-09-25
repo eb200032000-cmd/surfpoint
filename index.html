@@ -98,7 +98,14 @@
   .fc-size{background:var(--teal);color:#052027;border-radius:8px;padding:8px 11px;display:flex;justify-content:space-between;align-items:center;gap:8px}
   .fc-size .k{font-size:11px;font-weight:700;color:var(--ink-soft)}
   .fc-size .b{font-size:18px;font-weight:900;color:var(--ink);font-family:'Zen Kaku Gothic New',sans-serif}
-  .wind-off{color:#0F7A57}.wind-side{color:#9A5A00}.wind-on{color:#B93F27}
+  .wind-off{color:#0F7A57}.wind-sideoff{color:#43701F}.wind-sideon{color:#9A5A00}.wind-on{color:#B93F27}
+  .wind-side{color:#9A5A00}
+  .sp0{color:#54666C}.sp1{color:#15262B}.sp2{color:#9A5A00;font-weight:700}
+  .sp3{color:#B93F27;font-weight:700}.sp4{color:#8B2415;font-weight:900}
+  .wx{width:21px;height:21px;display:block;margin:0 auto}
+  .fc-legend{display:flex;flex-wrap:wrap;gap:3px 10px;padding:6px 5px 2px;font-size:9.5px;font-weight:700}
+  .fc-legend span::before{content:'●';margin-right:2px}
+  .fc-legend i{font-style:normal;color:var(--ink-soft);margin-right:1px}
   .fc-days{display:flex;gap:6px}
   .fc-day{flex:1;background:var(--sand);border-radius:8px;padding:7px 6px;text-align:center}
   .fc-day .d{font-size:10px;color:var(--ink-soft);font-weight:700}
@@ -1260,8 +1267,17 @@ function windType(windFromDeg,faceDeg){
   let d=Math.abs(windFromDeg-land)%360;
   if(d>180)d=360-d;
   if(d<=45) return {t:'オフショア',cls:'wind-off'};
-  if(d<=115)return {t:'サイドショア',cls:'wind-side'};
+  if(d<90)  return {t:'サイドオフ',cls:'wind-sideoff'};
+  if(d<=135)return {t:'サイドオン',cls:'wind-sideon'};
   return {t:'オンショア',cls:'wind-on'};
+}
+function spdCls(v){
+  if(v==null)return '';
+  if(v<3)return 'sp0';
+  if(v<6)return 'sp1';
+  if(v<9)return 'sp2';
+  if(v<12)return 'sp3';
+  return 'sp4';
 }
 function windStrength(v){
   if(v==null)return '';
@@ -1318,6 +1334,44 @@ function nowIndex(times){
 let tidePeaks={high:[],low:[],range:null};
 
 /* --- WMO 天気コード --- */
+const WX={
+  sun:'<svg class="wx" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.4" fill="#B06E00"/>'
+     +'<g stroke="#B06E00" stroke-width="1.9" stroke-linecap="round"><path d="M12 2.4v2.3M12 19.3v2.3M2.4 12h2.3M19.3 12h2.3'
+     +'M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"/></g></svg>',
+  suncloud:'<svg class="wx" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8.4" cy="7.6" r="3.2" fill="#B06E00"/>'
+     +'<g stroke="#B06E00" stroke-width="1.6" stroke-linecap="round"><path d="M8.4 1.6v1.5M2.1 7.6h1.5M3.9 3.1l1.1 1.1M12.9 3.1l-1.1 1.1"/></g>'
+     +'<path d="M9 19.4h8.5a3.3 3.3 0 00.25-6.6 4.8 4.8 0 00-9.2-.85A3.3 3.3 0 009 19.4z" fill="#6E7C85"/></svg>',
+  cloud:'<svg class="wx" viewBox="0 0 24 24" aria-hidden="true">'
+     +'<path d="M7 18.6h10.3a3.9 3.9 0 00.3-7.8 5.7 5.7 0 00-11-1A3.9 3.9 0 007 18.6z" fill="#6E7C85"/></svg>',
+  fog:'<svg class="wx" viewBox="0 0 24 24" aria-hidden="true">'
+     +'<path d="M7 13.6h10.3a3.9 3.9 0 00.3-7.8 5.7 5.7 0 00-11-1A3.9 3.9 0 007 13.6z" fill="#8C979E"/>'
+     +'<g stroke="#6E7C85" stroke-width="2" stroke-linecap="round"><path d="M4 17.4h16M7 21h10"/></g></svg>',
+  snow:'<svg class="wx" viewBox="0 0 24 24" aria-hidden="true">'
+     +'<g stroke="#2E86C1" stroke-width="1.9" stroke-linecap="round">'
+     +'<path d="M12 2.6v18.8M3.9 7.3l16.2 9.4M20.1 7.3L3.9 16.7"/>'
+     +'<path d="M9.5 4.4L12 6.6l2.5-2.2M9.5 19.6L12 17.4l2.5 2.2"/></g></svg>',
+  bolt:'<svg class="wx" viewBox="0 0 24 24" aria-hidden="true">'
+     +'<path d="M6.6 14.4h10.3a3.9 3.9 0 00.3-7.8 5.7 5.7 0 00-11-1 3.9 3.9 0 00.4 8.8z" fill="#6E7C85"/>'
+     +'<path d="M13.4 12.6l-4.6 6.6h3.1l-1 4.2 4.8-6.8h-3.2z" fill="#8C6900"/></svg>'
+};
+function umbrella(c){
+  return '<svg class="wx" viewBox="0 0 24 24" aria-hidden="true">'
+   +'<path d="M12 2.6c-4.9 0-8.9 3.7-9.4 8.4h18.8C20.9 6.3 16.9 2.6 12 2.6z" fill="'+c+'"/>'
+   +'<path d="M12 11v7.7a2.4 2.4 0 01-4.8 0" fill="none" stroke="'+c+'" stroke-width="2" stroke-linecap="round"/></svg>';
+}
+function wmoIcon(c){
+  if(c==null)return '';
+  if(c===0)return WX.sun;
+  if(c===1||c===2)return WX.suncloud;
+  if(c===3)return WX.cloud;
+  if(c===45||c===48)return WX.fog;
+  if(c>=95)return WX.bolt;
+  if((c>=71&&c<=77)||c===85||c===86)return WX.snow;
+  if(c===65||c===82)return umbrella('#14527C');
+  if(c===63||c===81||c===67)return umbrella('#1F6FA8');
+  if((c>=51&&c<=61)||c===66||c===80)return umbrella('#3C8CC0');
+  return WX.cloud;
+}
 function wmoLabel(c){
   if(c==null)return '—';
   if(c===0)return '快晴';
@@ -1429,10 +1483,11 @@ function hourlyTable(s,marine,wind,day){
     const sl=mi>=0&&mh.sea_level_height_msl?mh.sea_level_height_msl[mi]:null;
     rows.push('<tr'+(t===nowKey?' class="now"':'')+'>'
       +'<td class="hr">'+h+'</td>'
-      +'<td>'+wmoLabel(code)+(pr!=null&&pr>0?'<span class="sub rain">'+pr.toFixed(1)+'mm</span>':'')+'</td>'
+      +'<td title="'+wmoLabel(code)+'" aria-label="'+wmoLabel(code)+'">'+wmoIcon(code)
+        +(pr!=null&&pr>0?'<span class="sub rain">'+pr.toFixed(1)+'mm</span>':'')+'</td>'
       +'<td>'+(tp!=null?tp.toFixed(0)+'°':'—')+'</td>'
-      +'<td class="'+wt.cls+'">'+(wd!=null?dir16(wd):'—')
-        +'<span class="sub">'+(ws!=null?ws.toFixed(1):'—')+(wg!=null?'／'+wg.toFixed(0):'')+'m/s</span></td>'
+      +'<td><span class="'+wt.cls+'" title="'+wt.t+'">'+(wd!=null?dir16(wd):'—')+'</span>'
+        +'<span class="sub '+spdCls(ws)+'">'+(ws!=null?ws.toFixed(1)+'m/s':'—')+(wg!=null?' 瞬間'+wg.toFixed(0):'')+'</span></td>'
       +'<td>'+(wv!=null?wv.toFixed(1)+'m':'—')
         +'<span class="sub">'+(wdir!=null?dir16(wdir):'—')+(wp!=null?' '+Math.round(wp)+'秒':'')+'</span></td>'
       +'<td>'+(sl!=null?(sl>=0?'+':'')+Math.round(sl*100):'—')+'</td>'
@@ -1441,8 +1496,12 @@ function hourlyTable(s,marine,wind,day){
   if(!rows.length)return '<div class="fc-msg">この日のデータがありません</div>';
   return '<div class="fc-hr"><div class="fc-hr-top"><span>時間別の予報</span>'
     +'<button class="fc-hr-btn" data-step="'+s.id+'">'+(step===3?'1時間ごとに表示':'3時間ごとに戻す')+'</button></div>'
-    +'<table class="fc-tbl"><thead><tr><th>時</th><th>天気</th><th>気温</th><th>風</th><th>波</th><th>潮位<br>cm</th></tr></thead>'
-    +'<tbody>'+rows.join('')+'</tbody></table></div>';
+    +'<table class="fc-tbl"><thead><tr><th>時</th><th>天気</th><th>気温</th><th>風<br>向き・m/s</th><th>波</th><th>潮位<br>cm</th></tr></thead>'
+    +'<tbody>'+rows.join('')+'</tbody></table>'
+    +'<div class="fc-legend"><i>風向</i><span class="wind-off">オフショア</span><span class="wind-sideoff">サイドオフ</span>'
+    +'<span class="wind-sideon">サイドオン</span><span class="wind-on">オンショア</span></div>'
+    +'<div class="fc-legend"><i>風速</i><span class="sp0">〜3</span><span class="sp1">3〜6</span><span class="sp2">6〜9</span>'
+    +'<span class="sp3">9〜12</span><span class="sp4">12m/s〜</span></div></div>';
 }
 
 function renderForecast(s,marine,wind){
@@ -1505,8 +1564,8 @@ function renderForecast(s,marine,wind){
         +'<div class="s">周期'+(wp!=null?Math.round(wp)+'秒':'—')+' / '+(wd!=null?dir16(wd)+'から':'—')+'</div></div>'
       +'<div class="fc-cell"><div class="l">風</div>'
         +'<div class="v '+wt.cls+'">'+wt.t+'</div>'
-        +'<div class="s">'+(wdir!=null?dir16(wdir):'—')+' '+(ws!=null?ws.toFixed(1)+'m/s':'—')
-        +(ws!=null?'('+windStrength(ws)+')':'')+(wg!=null?' 最大'+wg.toFixed(0):'')+'</div></div>'
+        +'<div class="s">'+(wdir!=null?dir16(wdir):'—')+' <span class="'+spdCls(ws)+'">'+(ws!=null?ws.toFixed(1)+'m/s':'—')+'</span>'
+        +(ws!=null?'（'+windStrength(ws)+'）':'')+(wg!=null?' 瞬間'+wg.toFixed(0)+'m/s':'')+'</div></div>'
       +'<div class="fc-cell"><div class="l">うねり</div>'
         +'<div class="v">'+(sw!=null?sw.toFixed(1)+'m':'—')+'</div>'
         +'<div class="s">'+(sd!=null?dir16(sd)+'から':'—')+(sp!=null?' 周期'+Math.round(sp)+'秒':'')+'</div></div>'
