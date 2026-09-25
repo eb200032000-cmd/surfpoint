@@ -47,6 +47,25 @@
   .fav svg{width:22px;height:22px;display:block}
   .fav.on{color:#F2A93B}
   .grouphead.fav-head{color:#B8860B}
+  /* ---- 県の並び替え ---- */
+  .chip-cfg{border-style:dashed}
+  .ordpanel{margin:0 11px 10px;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .ordpanel[hidden]{display:none}
+  .ordpanel-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;background:var(--navy);color:var(--sand)}
+  .ordpanel-top b{font-size:12.5px;font-family:'Zen Kaku Gothic New',sans-serif}
+  .ordpanel-top button{background:rgba(255,255,255,.15);color:var(--sand);border:none;border-radius:7px;padding:4px 10px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer}
+  .ordrow{display:flex;align-items:center;gap:6px;padding:7px 10px;border-top:1px solid var(--line)}
+  .ordrow:first-child{border-top:none}
+  .ordrow .num{width:20px;font-size:11px;color:var(--ink-soft);font-weight:700;text-align:right}
+  .ordrow .nm{flex:1;font-size:13px;font-weight:700;font-family:'Zen Kaku Gothic New',sans-serif;min-width:0}
+  .ordrow .ct{font-size:10.5px;color:var(--ink-soft);font-weight:700;margin-right:2px}
+  .ordbtn{background:var(--sand);border:1.5px solid var(--line);color:var(--navy);border-radius:7px;
+    min-width:32px;padding:5px 7px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;line-height:1}
+  .ordbtn.top{min-width:0;font-size:10.5px;padding:6px 8px}
+  .ordbtn:disabled{opacity:.3;cursor:default}
+  .ordfoot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 12px;border-top:1px solid var(--line);background:var(--sand)}
+  .ordfoot button{background:#fff;border:1.5px solid var(--navy);color:var(--navy);border-radius:99px;padding:5px 12px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer}
+  .ordfoot span{font-size:10px;color:var(--ink-soft);text-align:right;line-height:1.5}
   .hl{display:flex;flex-direction:column;gap:3px;min-width:0}
   .pref-tag{font-size:10.5px;font-weight:700;color:var(--teal)}
   .card-title{font-size:15.5px;font-weight:900;font-family:'Zen Kaku Gothic New',sans-serif}
@@ -161,7 +180,7 @@
   <svg class="waves" viewBox="0 0 1440 60" preserveAspectRatio="none"><path d="M0 32 Q120 4 240 32 T480 32 T720 32 T960 32 T1200 32 T1440 32 V60 H0Z" fill="#F6F1E5"/></svg>
 </div>
 
-<div class="filterbar">
+<div class="filterbar" id="filterbar">
   <button class="chip active" data-f="all">すべて</button>
   <button class="chip" data-f="fav">★ お気に入り</button>
   <button class="chip" data-f="hakodate">函館</button>
@@ -178,6 +197,14 @@
   <button class="chip" data-f="cam">📷 カメラあり</button>
   <button class="chip" data-f="b">初心者向け</button>
   <button class="chip" data-f="a">上級向け</button>
+  <button class="chip chip-cfg" type="button" id="ordBtn">⇅ 県の並び</button>
+</div>
+
+<div class="ordpanel" id="ordPanel" hidden>
+  <div class="ordpanel-top"><b>県の並び順</b><button type="button" id="ordClose">閉じる</button></div>
+  <div id="ordList"></div>
+  <div class="ordfoot"><button type="button" id="ordReset">標準に戻す</button>
+    <span>並び順はこの端末のブラウザに保存されます</span></div>
 </div>
 
 <div id="map"></div>
@@ -186,7 +213,7 @@
 <div class="list" id="list"></div>
 
 <div class="note">
-  <b>免責について</b><br>本アプリの波・風・潮位は公開されている予測データをそのまま表示した参考値であり、正確性を保証するものではありません。ライブカメラの映像は各配信元の提供によるもので、停止・中断することがあります。<b>入水するかどうかの判断は、必ずご自身の責任で行ってください。</b>本アプリの利用により生じたいかなる損害についても責任を負いかねます。<br><br><b>使い方と注意</b><br>ポイント名の左の★をタップすると、そのポイントが一覧の一番上の「★ お気に入り」にまとまります。お気に入りはお使いの端末のブラウザに保存されるので、次に開いたときもそのままです。ただし端末やブラウザごとの保存なので、機種を変えたり、履歴とサイトデータを消したりすると消えます。ホーム画面に追加して使うと保存が長持ちします。<br><br>  ポイントを開くと、無料で公開されているライブカメラがある場所には「ライブカメラで波を見る」欄が出ます。ボタンを押すと配信元の公式ページが別のタブで開きます。フィルターの「カメラあり」で、カメラのあるポイントだけに絞り込めます。<br><br>
+  <b>免責について</b><br>本アプリの波・風・潮位は公開されている予測データをそのまま表示した参考値であり、正確性を保証するものではありません。ライブカメラの映像は各配信元の提供によるもので、停止・中断することがあります。<b>入水するかどうかの判断は、必ずご自身の責任で行ってください。</b>本アプリの利用により生じたいかなる損害についても責任を負いかねます。<br><br><b>使い方と注意</b><br>フィルターの右端にある「⇅ 県の並び」から、県の表示順を自由に変えられます。よく行く県の「先頭へ」を押せば、その県がチップの並びでも一覧でも一番上に来ます。この設定も端末ごとの保存です。<br><br>  ポイント名の左の★をタップすると、そのポイントが一覧の一番上の「★ お気に入り」にまとまります。お気に入りはお使いの端末のブラウザに保存されるので、次に開いたときもそのままです。ただし端末やブラウザごとの保存なので、機種を変えたり、履歴とサイトデータを消したりすると消えます。ホーム画面に追加して使うと保存が長持ちします。<br><br>  ポイントを開くと、無料で公開されているライブカメラがある場所には「ライブカメラで波を見る」欄が出ます。ボタンを押すと配信元の公式ページが別のタブで開きます。フィルターの「カメラあり」で、カメラのあるポイントだけに絞り込めます。<br><br>
   向き・対応ウネリ・設備は公開情報に基づく一般的な傾向です。遠州灘は速い潮流と強風で地形の変化が激しく、堤防や導流堤などの人工物まわりに地形が決まりやすいためサーファーが集まります。逆にその良いピークはローカルセッションになる時間帯も多いので、状況を見てから空いているピークに入るのが無難です。離岸流も強く出るので、当日のライブカメラ・波予報・現地ショップで必ず確認してください。「先端」はリーフでエキスパート限定です。<br><br>
   各エリアの傾向：<b>函館</b>は亀田半島にビーチからリーフまで点在し、真夏でもウェットが必須。ヒグマの出没情報と漁業権エリアへの立ち入りに注意してください。<b>千葉北（九十九里）</b>は東南東向きで北東〜南東うねりに反応し、設備が整った浜が多く初心者向き。<b>千葉南</b>は一宮・部原など実力派が並ぶ一方、平砂浦だけが南西向きで他が反応しないうねりを拾います。<b>湘南</b>は日本屈指の混雑エリアで、夏は遊泳優先の時間帯制限あり。<b>西湘</b>は玉石で急深、ショアブレイクが強く遊泳禁止の浜もあります。<br><br>  福島（浜通り）は海岸線が南北にまっすぐ続き、北東〜南東の幅広いうねりを通年で拾います。新地・相馬エリアはテトラや堤防まわりにパワフルでホローな波が決まりやすく中級以上向け。南相馬の北泉は無料駐車場200台以上・トイレ・シャワー完備で国際大会も開かれるメジャーポイント、隣の烏崎は左の堤防が北風を、南側の発電所堤防が南風をかわすため風に強く、北泉とセットで使い分けられます。いわきエリアは四倉・豊間・永崎・勿来と設備の整った浜が並び、関東からのアクセスも良好。全体に首都圏より空いていますが、震災後に再整備された浜が多く夏季は海水浴優先でマリンスポーツ規制が入る期間があります。水温は同時期の千葉・茨城より低めなので、ウェットは一枚厚めを見ておくと安心です。<br><br>  茨城（鹿島灘）は太平洋に突き出した地形で北東うねりに敏感に反応します。北部はリーフや玉石のパワフルなブレイクが多くローカル色も強め、南部は砂浜主体で初心者が入りやすい傾向。北東風と強い北うねりが天敵で、その条件では大洗・大貫にサーファーが集中しトラブルも起きがちなので、空いているピークを選んでください。<br><br>
   鹿島エリアは概ね2〜3kmごとにヘッドランドが設置され、その周辺にクオリティの高い波が集まります。裏を返すとヘッドランド両サイドのピークはローカルセッションになりやすく、大人数での同時エントリーはトラブルのもと。ヘッドランド周りは強烈なカレントが出るので、レベルを問わず流れの確認を。真夏でも南〜南西風が続くと水温が下がるため、ウェットは車に積んでおくと安心です。<br><br>  三重は伊勢志摩の<b>国府の浜</b>が中心で、沖のテトラがうねりを整えるぶん波質が安定しやすく、設備も整っているので初心者が入りやすいエリアです。テトラ前・ラスタ前・三角・水門・松林とピークが並び、混雑時は移動して空いた場所を探せます。半島南側の南張・塩鹿は強い南うねりのときだけ動く上級者向け。紀北・熊野は台風うねり頼みで、波が立つ機会はぐっと限られます。<br><br>  和歌山は紀伊水道に面した北部と、外洋に面した南部で性格が大きく違います。北部の<b>磯ノ浦</b>は関西最大級のメジャーポイントで、大阪・神戸から1〜2時間、初心者の練習に向く一方、南うねりが強く届くと一変します。加太・片男波・浜の宮・西広は、磯ノ浦がクローズするような大きなうねりのときに出番が来る「逃げ場」の関係にあるので、セットで覚えておくと遠征の組み立てが楽です。白浜以南の南紀と那智勝浦・新宮はリーフのポイントブレイクが主体で、台風や発達した低気圧のうねり待ち。ローカル色が強く一度に入れる人数も限られるため、まず陸から見て、譲り合える状況かを確かめてから入ってください。<br><br>
@@ -995,6 +1022,82 @@ function match(s,f){
   return s.pref===f;
 }
 /* ============================================================
+   県の並び順（この端末のブラウザにだけ保存されます）
+   ============================================================ */
+const PREFS=[{k:'hakodate',n:'函館'},{k:'fukushima',n:'福島'},{k:'ibaraki',n:'茨城'},
+  {k:'chibaN',n:'千葉北'},{k:'chibaS',n:'千葉南'},{k:'shonan',n:'湘南'},{k:'seisho',n:'西湘'},
+  {k:'shizuoka',n:'静岡'},{k:'aichi',n:'愛知'},{k:'mie',n:'三重'},{k:'wakayama',n:'和歌山'}];
+const PREF_ORDER_KEY='otasurfguide.prefOrder.v1';
+const DEF_ORDER=PREFS.map(x=>x.k);
+let prefOrder=DEF_ORDER.slice();
+try{
+  const raw=localStorage.getItem(PREF_ORDER_KEY);
+  if(raw){
+    const saved=JSON.parse(raw).filter(k=>DEF_ORDER.indexOf(k)>=0);
+    prefOrder=saved.concat(DEF_ORDER.filter(k=>saved.indexOf(k)<0));
+  }
+}catch(e){}
+function savePrefOrder(){ try{ localStorage.setItem(PREF_ORDER_KEY,JSON.stringify(prefOrder)); }catch(e){} }
+const prefIdx=k=>{const i=prefOrder.indexOf(k);return i<0?99:i;};
+const baseIdx={}; spots.forEach((s,i)=>{baseIdx[s.id]=i;});
+function sortSpots(arr){
+  return arr.slice().sort((a,b)=>(prefIdx(a.pref)-prefIdx(b.pref))||(baseIdx[a.id]-baseIdx[b.id]));
+}
+
+/* フィルターチップも同じ並びに差し替える */
+function applyChipOrder(){
+  const bar=document.getElementById('filterbar');
+  if(!bar)return;
+  const anchor=bar.querySelector('[data-f="cam"]');
+  if(!anchor)return;
+  prefOrder.forEach(k=>{
+    const c=bar.querySelector('[data-f="'+k+'"]');
+    if(c)bar.insertBefore(c,anchor);
+  });
+}
+
+function movePref(k,d){
+  const i=prefOrder.indexOf(k), j=i+d;
+  if(i<0||j<0||j>=prefOrder.length)return;
+  prefOrder.splice(j,0,prefOrder.splice(i,1)[0]);
+  afterOrderChange();
+}
+function prefToTop(k){
+  const i=prefOrder.indexOf(k);
+  if(i<=0)return;
+  prefOrder.unshift(prefOrder.splice(i,1)[0]);
+  afterOrderChange();
+}
+function afterOrderChange(){
+  savePrefOrder();
+  applyChipOrder();
+  renderOrdPanel();
+  render(curFilter);
+}
+function renderOrdPanel(){
+  const el=document.getElementById('ordList');
+  if(!el)return;
+  el.innerHTML='';
+  prefOrder.forEach((k,i)=>{
+    const p=PREFS.find(x=>x.k===k);
+    if(!p)return;
+    const n=spots.filter(x=>x.pref===k).length;
+    const row=document.createElement('div');
+    row.className='ordrow';
+    row.innerHTML='<span class="num">'+(i+1)+'</span><span class="nm">'+p.n+'</span>'
+      +'<span class="ct">'+n+'</span>'
+      +'<button class="ordbtn" type="button" data-up="'+k+'"'+(i===0?' disabled':'')+' aria-label="上へ">▲</button>'
+      +'<button class="ordbtn" type="button" data-down="'+k+'"'+(i===prefOrder.length-1?' disabled':'')+' aria-label="下へ">▼</button>'
+      +'<button class="ordbtn top" type="button" data-top="'+k+'"'+(i===0?' disabled':'')+'>先頭へ</button>';
+    const up=row.querySelector('[data-up]'), dn=row.querySelector('[data-down]'), tp=row.querySelector('[data-top]');
+    if(up)up.addEventListener('click',()=>movePref(k,-1));
+    if(dn)dn.addEventListener('click',()=>movePref(k,1));
+    if(tp)tp.addEventListener('click',()=>prefToTop(k));
+    el.appendChild(row);
+  });
+}
+
+/* ============================================================
    お気に入り（この端末のブラウザにだけ保存されます）
    ============================================================ */
 const FAV_KEY='otasurfguide.fav.v1';
@@ -1026,7 +1129,7 @@ function toggleFav(id){
 function render(f){
   curFilter=f;
   listEl.innerHTML='';
-  const hit=spots.filter(s=>match(s,f));
+  const hit=sortSpots(spots.filter(s=>match(s,f)));
   const fav=hit.filter(s=>favs.has(s.id));
   const rest=hit.filter(s=>!favs.has(s.id));
   const arr=fav.concat(rest);
@@ -1472,9 +1575,9 @@ async function loadForecast(s){
   }
 }
 
-document.querySelectorAll('.chip').forEach(ch=>{
+document.querySelectorAll('.chip[data-f]').forEach(ch=>{
   ch.addEventListener('click',()=>{
-    document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.chip[data-f]').forEach(x=>x.classList.remove('active'));
     ch.classList.add('active');
     const f=ch.dataset.f;
     render(f);
@@ -1490,6 +1593,18 @@ document.querySelectorAll('.chip').forEach(ch=>{
   });
 });
 
+const ordPanel=document.getElementById('ordPanel');
+document.getElementById('ordBtn').addEventListener('click',()=>{
+  ordPanel.hidden=!ordPanel.hidden;
+  if(!ordPanel.hidden)renderOrdPanel();
+});
+document.getElementById('ordClose').addEventListener('click',()=>{ordPanel.hidden=true;});
+document.getElementById('ordReset').addEventListener('click',()=>{
+  prefOrder=DEF_ORDER.slice();
+  afterOrderChange();
+});
+applyChipOrder();
+renderOrdPanel();
 render('all');
 map.fitBounds(spots.map(s=>[s.lat,s.lng]),{padding:[28,28]});
 </script>
